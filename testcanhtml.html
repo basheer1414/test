@@ -1,0 +1,4061 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Web Design Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    screens: {
+                        'xs': '475px',
+                    }
+                }
+            }
+        }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* Vibrant Mint & Cyan Accent Palette */
+            --accent-primary: #10d9c4;
+            --accent-secondary: #0db5a3;
+            --accent-tertiary: #0a9082;
+            --accent-muted: rgba(16, 217, 196, 0.6);
+            --accent-subtle: rgba(16, 217, 196, 0.15);
+            --accent-ghost: rgba(16, 217, 196, 0.05);
+
+            /* Rich Dark Charcoal Field */
+            --field-darkest: #0d0d0f;
+            --field-dark: #151518;
+            --field-medium: #1c1c20;
+            --field-light: #242429;
+            --field-lighter: #2d2d33;
+            --field-surface: rgba(28, 28, 32, 0.95);
+
+            /* Depth Hierarchy */
+            --depth-base: var(--field-medium);
+            --depth-raised: var(--field-light);
+            --depth-elevated: var(--field-lighter);
+            --depth-floating: rgba(36, 36, 41, 0.98);
+
+            /* Vibrant Hairlines */
+            --hairline-primary: rgba(16, 217, 196, 0.25);
+            --hairline-secondary: rgba(255, 255, 255, 0.12);
+            --hairline-subtle: rgba(255, 255, 255, 0.06);
+            --hairline-cyan: rgba(6, 182, 212, 0.15);
+
+            /* Luxurious Ambient Shadows */
+            --shadow-ambient-sm: 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 var(--hairline-secondary);
+            --shadow-ambient-md: 0 4px 16px rgba(0, 0, 0, 0.5), inset 0 1px 0 var(--hairline-secondary);
+            --shadow-ambient-lg: 0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 var(--hairline-secondary);
+            --shadow-ambient-xl: 0 16px 64px rgba(0, 0, 0, 0.7), inset 0 1px 0 var(--hairline-primary);
+
+            /* Premium Typography */
+            --text-primary: rgba(255, 255, 255, 0.98);
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --text-tertiary: rgba(255, 255, 255, 0.65);
+            --text-muted: rgba(255, 255, 255, 0.45);
+            --text-accent: var(--accent-primary);
+            --text-platinum: #e5e4e2;
+
+            /* Refined Radii System */
+            --radius-xs: 6px;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+            --radius-full: 9999px;
+
+            /* Precise Spacing Grid */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            --space-16: 64px;
+            --space-20: 80px;
+
+            /* Smooth Motion Tokens */
+            --motion-duration-fast: 150ms;
+            --motion-duration-normal: 300ms;
+            --motion-duration-slow: 450ms;
+            --motion-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --motion-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+            --motion-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+            /* Vibrant Mint Glows */
+            --glow-accent-sm: 0 0 16px rgba(16, 217, 196, 0.4);
+            --glow-accent-md: 0 0 24px rgba(16, 217, 196, 0.5);
+            --glow-accent-lg: 0 0 40px rgba(16, 217, 196, 0.6);
+            --glow-cyan: 0 0 20px rgba(6, 182, 212, 0.3);
+        }
+
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0d0d0f 0%, #151518 25%, #1c1c20 50%, #242429 75%, #0d0d0f 100%);
+            color: var(--text-primary);
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        /* Responsive Utilities */
+        @media (max-width: 768px) {
+            .mobile-hidden {
+                display: none !important;
+            }
+
+            .mobile-full {
+                width: 100% !important;
+            }
+
+            .mobile-stack {
+                flex-direction: column !important;
+            }
+
+            .mobile-text-sm {
+                font-size: 0.875rem !important;
+            }
+
+            .mobile-p-2 {
+                padding: 0.5rem !important;
+            }
+
+            .mobile-p-4 {
+                padding: 1rem !important;
+            }
+
+            .mobile-gap-2 {
+                gap: 0.5rem !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .sm-hidden {
+                display: none !important;
+            }
+
+            .sm-full {
+                width: 100% !important;
+            }
+
+            .sm-text-xs {
+                font-size: 0.75rem !important;
+            }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(16, 217, 196, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 0%, rgba(16, 217, 196, 0.06) 0%, transparent 40%),
+                linear-gradient(180deg, transparent 0%, rgba(16, 217, 196, 0.02) 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(20, 27, 38, 0.98) 50%, rgba(15, 20, 25, 0.99) 100%);
+            border: 1px solid var(--hairline-secondary);
+            box-shadow: var(--shadow-ambient-md);
+            position: relative;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--hairline-primary) 20%, var(--accent-primary) 50%, var(--hairline-primary) 80%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 50%, var(--accent-tertiary) 100%);
+            border: 1px solid var(--accent-secondary);
+            transition: all var(--motion-duration-normal) var(--motion-ease-out);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-ambient-md), var(--glow-accent-sm);
+            border-radius: var(--radius-lg);
+            padding: var(--space-3) var(--space-6);
+            color: var(--field-darkest);
+            font-weight: 600;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left var(--motion-duration-slow) var(--motion-ease-out);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--hairline-primary);
+            border-radius: inherit;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: xor;
+            -webkit-mask-composite: xor;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--glow-accent-md), var(--shadow-ambient-lg);
+            background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 50%, var(--accent-secondary) 100%);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            transition: all var(--motion-duration-fast) var(--motion-ease-in-out);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, rgba(32, 43, 63, 0.8) 0%, rgba(26, 35, 50, 0.9) 50%, rgba(20, 27, 38, 0.95) 100%);
+            border: 1px solid var(--hairline-secondary);
+            transition: all var(--motion-duration-normal) var(--motion-ease-out);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-ambient-sm);
+            border-radius: var(--radius-lg);
+            padding: var(--space-3) var(--space-4);
+            color: var(--text-secondary);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent-subtle);
+            opacity: 0;
+            transition: opacity var(--motion-duration-normal) var(--motion-ease-out);
+        }
+
+        .btn-secondary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--hairline-subtle);
+            border-radius: inherit;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: xor;
+            -webkit-mask-composite: xor;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--glow-accent-sm), var(--shadow-ambient-md);
+            border-color: var(--hairline-primary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover::before {
+            opacity: 1;
+        }
+
+        .btn-secondary:active {
+            transform: translateY(0);
+            transition: all var(--motion-duration-fast) var(--motion-ease-in-out);
+        }
+
+        .input-field {
+            background: var(--depth-base);
+            border: 1px solid var(--hairline-secondary);
+            color: var(--text-primary);
+            transition: all var(--motion-duration-normal) var(--motion-ease-out);
+            position: relative;
+            box-shadow: var(--shadow-ambient-sm);
+            border-radius: var(--radius-md);
+            padding: var(--space-3) var(--space-4);
+        }
+
+        .input-field::placeholder {
+            color: var(--text-muted);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: var(--glow-accent-sm), var(--shadow-ambient-md);
+            background: var(--depth-raised);
+        }
+
+        .input-field:hover:not(:focus) {
+            border-color: var(--hairline-primary);
+            background: var(--depth-raised);
+        }
+
+        .canvas-area {
+            background: linear-gradient(145deg, #000000 0%, #0a0a0a 30%, #111111 60%, #050505 100%);
+            position: relative;
+        }
+
+        .canvas-area::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 25% 25%, rgba(16, 217, 196, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 75% 75%, rgba(6, 182, 212, 0.10) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 50%, rgba(16, 217, 196, 0.08) 0%, transparent 80%),
+                conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(16, 217, 196, 0.04) 90deg, transparent 180deg, rgba(6, 182, 212, 0.03) 270deg, transparent 360deg);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .canvas-area::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(45deg, transparent 49%, rgba(16, 217, 196, 0.10) 50%, transparent 51%),
+                linear-gradient(-45deg, transparent 49%, rgba(6, 182, 212, 0.06) 50%, transparent 51%);
+            background-size: var(--space-16) var(--space-16);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .canvas-grid {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .design-element {
+            position: absolute;
+            cursor: move;
+            transition: all var(--motion-duration-normal) var(--motion-ease-out);
+            border: 1px solid transparent;
+            min-width: var(--space-3);
+            min-height: var(--space-3);
+        }
+
+        .design-element:not(.text-element) {
+            background: var(--depth-floating) !important;
+            border: 1px solid var(--hairline-secondary) !important;
+            box-shadow: var(--shadow-ambient-md);
+            border-radius: var(--radius-md);
+        }
+
+        .design-element.text-element {
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            padding: 8px 12px !important;
+            min-width: 100px !important;
+            min-height: 32px !important;
+            display: flex !important;
+            align-items: center !important;
+            line-height: 1.4 !important;
+        }
+
+
+
+        .design-element.selected:not(.text-element) {
+            border: 1px dotted var(--accent-primary) !important;
+            box-shadow: 0 0 0 1px var(--accent-muted);
+            background: var(--accent-ghost) !important;
+        }
+
+        .design-element.text-element.selected {
+            outline: 1px dotted var(--accent-primary) !important;
+            outline-offset: 2px;
+            background: var(--accent-subtle) !important;
+            border-radius: 4px !important;
+        }
+
+        .design-element:hover:not(.selected) {
+            border-color: var(--accent-muted) !important;
+            box-shadow: var(--glow-accent-sm), var(--shadow-ambient-md);
+            transform: translateY(-1px);
+        }
+
+        .resize-handle {
+            position: absolute;
+            width: var(--space-2);
+            height: var(--space-2);
+            background: var(--accent-primary);
+            border: 1px solid var(--field-darkest);
+            border-radius: var(--radius-full);
+            box-shadow: var(--glow-accent-sm);
+        }
+
+        .toolbar-btn {
+            width: var(--space-10);
+            height: var(--space-10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-lg);
+            transition: all var(--motion-duration-normal) var(--motion-ease-out);
+            cursor: pointer;
+            background: var(--depth-elevated);
+            border: 1px solid var(--hairline-secondary);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-ambient-sm);
+            color: var(--text-secondary);
+        }
+
+        .toolbar-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent-subtle);
+            opacity: 0;
+            transition: opacity var(--motion-duration-normal) var(--motion-ease-out);
+        }
+
+        .toolbar-btn:hover {
+            background: var(--depth-floating);
+            border-color: var(--accent-primary);
+            transform: translateY(-1px);
+            box-shadow: var(--glow-accent-sm), var(--shadow-ambient-md);
+            color: var(--accent-primary);
+        }
+
+        .toolbar-btn:hover::before {
+            opacity: 1;
+        }
+
+        .toolbar-btn.active {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            border-color: var(--accent-primary);
+            box-shadow: var(--glow-accent-md), var(--shadow-ambient-lg);
+            color: var(--field-darkest);
+        }
+
+        .toolbar-btn.active::before {
+            opacity: 0;
+        }
+
+        .toolbar-btn:active {
+            transform: translateY(0);
+            transition: all var(--motion-duration-fast) var(--motion-ease-in-out);
+        }
+
+        /* Premium Sidebar Styles */
+        :root {
+            --sidebar-w: clamp(220px, 14vw, 320px);
+            --accent: var(--mint-primary);
+            --accent-2: var(--mint-secondary);
+        }
+
+        .premium-sidebar {
+            width: var(--sidebar-w);
+            min-width: 220px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px 12px 12px 22px;
+            backdrop-filter: blur(10px) saturate(130%);
+            -webkit-backdrop-filter: blur(10px) saturate(130%);
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+                0 30px 60px rgba(0, 0, 0, 0.55);
+            position: relative;
+        }
+
+        .brandWrap {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .logo-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(16, 217, 196, 0.4);
+            position: relative;
+        }
+
+        .logo-box::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+            border-radius: 14px;
+            opacity: 0.3;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #fff, var(--accent-secondary), #fff);
+            background-size: 200% 100%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+            margin: 0;
+        }
+
+        @keyframes titleGlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, rgba(26, 35, 50, 0.95) 0%, rgba(20, 27, 38, 0.98) 30%, rgba(15, 20, 25, 0.99) 70%, rgba(10, 14, 26, 1) 100%);
+            border-right: 1px solid var(--hairline-secondary);
+            position: relative;
+            box-shadow: var(--shadow-ambient-md);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, var(--hairline-primary) 0%, var(--accent-primary) 50%, var(--hairline-primary) 100%);
+            pointer-events: none;
+        }
+
+        .sidebar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--hairline-primary) 0%, var(--accent-muted) 50%, var(--hairline-primary) 100%);
+            pointer-events: none;
+        }
+
+        .properties-panel {
+            background: linear-gradient(180deg, rgba(26, 35, 50, 0.95) 0%, rgba(20, 27, 38, 0.98) 30%, rgba(15, 20, 25, 0.99) 70%, rgba(10, 14, 26, 1) 100%);
+            border-left: 1px solid var(--hairline-secondary);
+            position: relative;
+            box-shadow: var(--shadow-ambient-md);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .properties-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, var(--hairline-primary) 0%, var(--accent-primary) 50%, var(--hairline-primary) 100%);
+            pointer-events: none;
+        }
+
+        .properties-panel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--hairline-primary) 0%, var(--accent-muted) 50%, var(--hairline-primary) 100%);
+            pointer-events: none;
+        }
+
+        .tab-button {
+            padding: 12px 16px;
+            border-bottom: 2px solid transparent;
+            transition: all var(--motion-duration-normal) var(--motion-ease-out);
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            font-size: 13px;
+            background: none;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+        }
+
+        .tab-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent-subtle);
+            opacity: 0;
+            transition: opacity var(--motion-duration-normal) var(--motion-ease-out);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab-button.active {
+            color: var(--accent-primary);
+            border-bottom-color: var(--accent-primary);
+            background: var(--accent-ghost);
+        }
+
+        .tab-button.active::before {
+            opacity: 1;
+        }
+
+        .tab-button:hover:not(.active) {
+            background: var(--accent-ghost);
+            color: var(--accent-primary);
+            border-bottom-color: var(--accent-muted);
+        }
+
+        .property-group {
+            background: linear-gradient(135deg, rgba(20, 27, 38, 0.6) 0%, rgba(15, 20, 25, 0.8) 50%, rgba(10, 14, 26, 0.9) 100%);
+            border: 1px solid var(--hairline-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            margin-bottom: var(--space-5);
+            position: relative;
+            box-shadow: var(--shadow-ambient-sm);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        .property-group::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--hairline-primary) 20%, var(--accent-muted) 50%, var(--hairline-primary) 80%, transparent 100%);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .property-group:hover {
+            border-color: var(--hairline-primary);
+            box-shadow: var(--shadow-ambient-md);
+            transform: translateY(-1px);
+            transition: all var(--motion-duration-normal) var(--motion-ease-out);
+        }
+
+        .property-label {
+            font-size: var(--space-3);
+            font-weight: 500;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--space-2);
+        }
+
+        .slider {
+            width: 100%;
+            height: var(--space-1);
+            border-radius: var(--radius-xs);
+            background: linear-gradient(90deg, var(--hairline-secondary) 0%, var(--accent-primary) 100%);
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: var(--space-4);
+            height: var(--space-4);
+            border-radius: var(--radius-full);
+            background: var(--accent-primary);
+            box-shadow: var(--glow-accent-sm);
+            cursor: pointer;
+        }
+
+        .color-picker {
+            width: var(--space-10);
+            height: var(--space-10);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--hairline-secondary);
+            cursor: pointer;
+            transition: all var(--motion-duration-normal) var(--motion-ease-out);
+        }
+
+        .color-picker:hover {
+            transform: scale(1.05);
+            box-shadow: var(--glow-accent-sm), var(--shadow-ambient-md);
+            border-color: var(--accent-primary);
+        }
+
+        .notification {
+            position: fixed;
+            top: var(--space-6);
+            right: var(--space-6);
+            z-index: 1000;
+            padding: var(--space-5) var(--space-6);
+            border-radius: var(--radius-xl);
+            border: 1px solid;
+            max-width: 420px;
+            animation: slideIn var(--motion-duration-slow) var(--motion-ease-out);
+            box-shadow: var(--shadow-ambient-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notification::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--hairline-primary);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(16, 217, 196, 0.1) 50%, rgba(10, 14, 26, 0.98) 100%);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            box-shadow: var(--glow-accent-md), var(--shadow-ambient-xl);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(239, 68, 68, 0.1) 50%, rgba(10, 14, 26, 0.98) 100%);
+            border-color: #ef4444;
+            color: #ef4444;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3), var(--shadow-ambient-xl);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+        }
+
+        .notification.info {
+            background: linear-gradient(135deg, rgba(26, 35, 50, 0.95) 0%, rgba(16, 217, 196, 0.05) 50%, rgba(10, 14, 26, 0.98) 100%);
+            border-color: var(--accent-muted);
+            color: var(--accent-muted);
+            box-shadow: var(--glow-accent-sm), var(--shadow-ambient-xl);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .code-editor {
+            background: #1e1e1e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #d4d4d4;
+        }
+
+        .template-card {
+            background: linear-gradient(135deg, rgba(20, 27, 38, 0.7) 0%, rgba(15, 20, 25, 0.85) 50%, rgba(10, 14, 26, 0.95) 100%);
+            border: 1px solid var(--hairline-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            cursor: pointer;
+            transition: all var(--motion-duration-normal) var(--motion-ease-out);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-ambient-sm);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        .template-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--hairline-primary) 20%, var(--accent-primary) 50%, var(--hairline-primary) 80%, transparent 100%);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+
+        .template-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-subtle) 0%, rgba(16, 217, 196, 0.08) 50%, var(--accent-ghost) 100%);
+            opacity: 0;
+            transition: opacity var(--motion-duration-normal) var(--motion-ease-out);
+            border-radius: var(--radius-xl);
+        }
+
+        .template-card:hover {
+            background: var(--depth-elevated);
+            border-color: var(--accent-primary);
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: var(--glow-accent-md), var(--shadow-ambient-lg);
+        }
+
+        .template-card:hover::after {
+            opacity: 1;
+        }
+
+        .template-card:active {
+            transform: translateY(0) scale(1);
+            transition: all var(--motion-duration-fast) var(--motion-ease-in-out);
+        }
+
+        /* Template Popup Styles */
+        .template-thumbnail-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .template-thumbnail-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .template-card:hover .template-thumbnail-container::after {
+            opacity: 1;
+            animation: shimmer 1.5s ease-in-out;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .element-tree {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+        }
+
+        .tree-item {
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tree-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tree-item.selected {
+            background: rgba(0, 102, 255, 0.2);
+            border-left: 3px solid var(--primary);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            border-radius: 3px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- UI Customizer Panel -->
+    <div id="uiCustomizer" class="fixed top-4 left-4 z-50 glass-panel rounded-2xl p-6 w-80 hidden">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold text-white">UI Customizer</h3>
+            <button onclick="toggleUICustomizer()" class="toolbar-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="space-y-4">
+            <!-- Mint Accent Controls -->
+            <div class="property-group">
+                <div class="property-label">Mint Accent</div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Primary</label>
+                        <input type="color" id="mintPrimary" value="#10d9c4" class="color-picker"
+                            onchange="updateMintColor('primary', this.value)">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Opacity</label>
+                        <input type="range" id="mintOpacity" min="0.1" max="1" step="0.1" value="1" class="slider"
+                            oninput="updateMintOpacity(this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Field Colors -->
+            <div class="property-group">
+                <div class="property-label">Background Field</div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Darkest</label>
+                        <input type="color" id="fieldDarkest" value="#0a0e1a" class="color-picker"
+                            onchange="updateFieldColor('darkest', this.value)">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Medium</label>
+                        <input type="color" id="fieldMedium" value="#141b26" class="color-picker"
+                            onchange="updateFieldColor('medium', this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Motion Settings -->
+            <div class="property-group">
+                <div class="property-label">Motion</div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-2">Speed</label>
+                        <select id="motionSpeed" class="input-field w-full px-2 py-1 text-sm rounded"
+                            onchange="updateMotionSpeed(this.value)">
+                            <option value="fast">Fast</option>
+                            <option value="normal" selected>Normal</option>
+                            <option value="slow">Slow</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spacing Grid -->
+            <div class="property-group">
+                <div class="property-label">Spacing Scale</div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-2">Base Unit (4px)</label>
+                    <input type="range" id="spacingScale" min="2" max="8" step="1" value="4" class="slider"
+                        oninput="updateSpacingScale(this.value)">
+                    <div class="text-xs text-center text-gray-400 mt-1" id="spacingValue">4px</div>
+                </div>
+            </div>
+
+            <!-- Reset Button -->
+            <button onclick="resetUICustomizer()" class="btn-secondary w-full px-4 py-2 text-sm rounded-lg">
+                Reset to Defaults
+            </button>
+        </div>
+    </div>
+
+    <!-- Top Header -->
+    <div class="glass-panel h-16 flex items-center justify-between px-3 md:px-6 border-b border-white/10">
+        <!-- Left Section -->
+        <div class="flex items-center space-x-2 md:space-x-6">
+            <div class="flex items-center space-x-2 md:space-x-4">
+                <div class="relative">
+                    <div
+                        class="w-8 h-8 md:w-12 md:h-12 bg-gradient-to-br from-accent-primary via-accent-secondary to-accent-tertiary rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg">
+                        <span class="text-field-darkest text-sm md:text-xl font-bold">⚡</span>
+                    </div>
+                    <div
+                        class="absolute -inset-1 bg-gradient-to-br from-accent-primary via-accent-secondary to-accent-tertiary rounded-xl md:rounded-2xl blur opacity-30 animate-pulse">
+                    </div>
+                </div>
+                <div class="mobile-hidden">
+                    <h1
+                        class="text-lg md:text-xl font-bold bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-tertiary bg-clip-text text-transparent">
+                        Design Studio Pro
+                    </h1>
+                    <p class="text-xs md:text-sm text-gray-300 font-medium">Luxury Web Design Platform</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Section -->
+        <div class="flex items-center space-x-2 md:space-x-4 flex-1 justify-center max-w-md">
+            <input type="text" id="projectName" value="Untitled Project"
+                class="input-field text-center font-medium px-2 md:px-4 py-2 rounded-lg bg-transparent border outline-none text-xs md:text-sm flex-1 min-w-0">
+            <div class="flex items-center space-x-1 md:space-x-2 text-xs md:text-sm text-gray-300 mobile-hidden">
+                <span id="zoomDisplay" class="font-mono">100%</span>
+                <button onclick="zoomIn()" class="toolbar-btn">
+                    <svg width="14" height="14" md:width="16" md:height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="M21 21l-4.35-4.35" />
+                        <line x1="11" y1="8" x2="11" y2="14" />
+                        <line x1="8" y1="11" x2="14" y2="11" />
+                    </svg>
+                </button>
+                <button onclick="zoomOut()" class="toolbar-btn">
+                    <svg width="14" height="14" md:width="16" md:height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="M21 21l-4.35-4.35" />
+                        <line x1="8" y1="11" x2="14" y2="11" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="flex items-center space-x-1 md:space-x-3">
+            <!-- Canvas Controls -->
+            <button id="gridToggle" onclick="toggleGrid()" class="toolbar-btn mobile-hidden" title="Toggle Grid">
+                <svg width="14" height="14" md:width="16" md:height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                </svg>
+            </button>
+            <button onclick="toggleRulers()" class="toolbar-btn mobile-hidden" title="Toggle Rulers">
+                <svg width="14" height="14" md:width="16" md:height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <path d="M3 3h18v18H3z" />
+                    <path d="M3 9h18" />
+                    <path d="M9 3v18" />
+                </svg>
+            </button>
+            <input type="color" id="canvasBg" value="#0a0a0a" onchange="changeCanvasBackground()"
+                class="color-picker mobile-hidden" title="Canvas Background">
+
+            <!-- Viewport Controls -->
+            <div class="w-px h-6 md:h-8 bg-white/20 mx-1 md:mx-2 mobile-hidden"></div>
+            <button onclick="setViewport('desktop')" class="toolbar-btn active" id="desktopView" title="Desktop View">
+                <svg width="14" height="14" md:width="16" md:height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                    <line x1="8" y1="21" x2="16" y2="21" />
+                    <line x1="12" y1="17" x2="12" y2="21" />
+                </svg>
+            </button>
+            <button onclick="setViewport('tablet')" class="toolbar-btn" id="tabletView" title="Tablet View">
+                <svg width="14" height="14" md:width="16" md:height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
+                    <line x1="12" y1="18" x2="12.01" y2="18" />
+                </svg>
+            </button>
+            <button onclick="setViewport('mobile')" class="toolbar-btn" id="mobileView" title="Mobile View">
+                <svg width="14" height="14" md:width="16" md:height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                    <line x1="12" y1="18" x2="12.01" y2="18" />
+                </svg>
+            </button>
+
+            <div class="w-px h-6 md:h-8 bg-white/20 mx-1 md:mx-2 mobile-hidden"></div>
+            <div class="relative">
+                <button onclick="toggleThemePopup()"
+                    class="toolbar-btn mobile-hidden flex flex-col items-center justify-center" title="Themes">
+                    <svg width="14" height="14" md:width="16" md:height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5" />
+                        <line x1="12" y1="1" x2="12" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="23" />
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                        <line x1="1" y1="12" x2="3" y2="12" />
+                        <line x1="21" y1="12" x2="23" y2="12" />
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                    </svg>
+                    <span class="text-xs mt-1 mobile-hidden">Theme</span>
+                </button>
+            </div>
+            <button onclick="toggleUICustomizer()" class="toolbar-btn mobile-hidden" title="UI Customizer">
+                <svg width="14" height="14" md:width="16" md:height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3" />
+                    <path
+                        d="M12 1v6m0 6v6m11-7h-6m-6 0H1m17-4a4 4 0 0 1-8 0 4 4 0 0 1 8 0zM7 21a4 4 0 0 1-8 0 4 4 0 0 1 8 0z" />
+                </svg>
+            </button>
+            <button onclick="previewMode()"
+                class="btn-secondary px-2 md:px-4 py-2 text-xs md:text-sm rounded-lg font-medium">
+                Preview
+            </button>
+            <button onclick="exportProject()"
+                class="btn-primary px-3 md:px-6 py-2 text-white text-xs md:text-sm rounded-lg font-semibold">
+                Export
+            </button>
+        </div>
+    </div>
+
+    <div class="flex h-screen relative">
+
+
+        <!-- Left Sidebar -->
+        <div id="leftSidebar" class="premium-sidebar flex flex-col fixed left-4 top-20 bottom-4 z-50 overflow-hidden"
+            style="height: calc(100vh - 120px);">
+            <!-- Drag Handle -->
+            <div id="sidebarDragHandle"
+                class="absolute top-3 right-3 w-8 h-8 cursor-move opacity-50 hover:opacity-100 transition-opacity flex items-center justify-center text-gray-400 hover:text-accent-primary z-10 bg-black/20 rounded-lg backdrop-blur-sm"
+                title="Drag to move sidebar">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="9" cy="12" r="1" />
+                    <circle cx="9" cy="5" r="1" />
+                    <circle cx="9" cy="19" r="1" />
+                    <circle cx="15" cy="12" r="1" />
+                    <circle cx="15" cy="5" r="1" />
+                    <circle cx="15" cy="19" r="1" />
+                </svg>
+            </div>
+
+            <!-- Brand Row -->
+            <div class="brandWrap">
+                <div class="flex items-center gap-3">
+                    <!-- Logo Box -->
+                    <div class="logo-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="text-white">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"
+                                stroke-linejoin="round" />
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"
+                                stroke-linejoin="round" />
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <!-- Brand Title -->
+                    <h1 id="brandName" class="brand-title">EvA</h1>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex border-b border-white/5" style="margin: 0 12px;">
+                <button class="tab-button active flex-1" onclick="switchTab('design')">Design</button>
+                <button class="tab-button flex-1" onclick="switchTab('layers')">Layers</button>
+                <button class="tab-button flex-1" onclick="switchTab('assets')">Assets</button>
+            </div>
+
+            <!-- Design Panel -->
+            <div id="designPanel" class="flex-1 overflow-y-auto custom-scrollbar" style="padding: 16px 20px;">
+                <div class="space-y-4">
+                    <!-- Template Library -->
+                    <button onclick="openTemplatePopup()"
+                        class="btn-secondary w-full px-6 py-4 rounded-xl font-semibold flex items-center justify-center space-x-3 hover:scale-105 transition-transform">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7" />
+                            <rect x="14" y="3" width="7" height="7" />
+                            <rect x="14" y="14" width="7" height="7" />
+                            <rect x="3" y="14" width="7" height="7" />
+                        </svg>
+                        <span>Browse Templates</span>
+                    </button>
+
+                    <!-- Add Elements -->
+                    <div class="property-group">
+                        <div class="property-label">Add Elements</div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="addElement('div')"
+                                class="btn-secondary px-4 py-3 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <div class="w-4 h-4 border-2 border-current rounded"></div>
+                                <span>Box</span>
+                            </button>
+                            <button onclick="addElement('text')"
+                                class="btn-secondary px-4 py-3 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="4,7 4,4 20,4 20,7" />
+                                    <line x1="9" y1="20" x2="15" y2="20" />
+                                    <line x1="12" y1="4" x2="12" y2="20" />
+                                </svg>
+                                <span>Text</span>
+                            </button>
+                            <button onclick="addElement('button')"
+                                class="btn-secondary px-4 py-3 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <div class="w-4 h-3 bg-current rounded-sm"></div>
+                                <span>Button</span>
+                            </button>
+                            <button onclick="addElement('input')"
+                                class="btn-secondary px-4 py-3 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <div class="w-4 h-2 border border-current rounded-sm"></div>
+                                <span>Input</span>
+                            </button>
+                            <button onclick="addElement('img')"
+                                class="btn-secondary px-4 py-3 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                    <polyline points="21,15 16,10 5,21" />
+                                </svg>
+                                <span>Image</span>
+                            </button>
+                            <button onclick="addElement('card')"
+                                class="btn-secondary px-4 py-3 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M21 16V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z" />
+                                    <line x1="21" y1="12" x2="3" y2="12" />
+                                </svg>
+                                <span>Card</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Import Options -->
+                    <div class="property-group">
+                        <div class="property-label">Quick Import</div>
+                        <div class="space-y-3">
+                            <button onclick="document.getElementById('htmlFileInput').click()"
+                                class="btn-secondary w-full px-4 py-3 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14,2 14,8 20,8" />
+                                    <line x1="16" y1="13" x2="8" y2="13" />
+                                    <line x1="16" y1="17" x2="8" y2="17" />
+                                    <polyline points="10,9 9,9 8,9" />
+                                </svg>
+                                <span>Upload HTML File</span>
+                            </button>
+                            <input type="file" id="htmlFileInput" accept=".html,.zip" class="hidden"
+                                onchange="handleFileUpload(event)">
+
+                            <div class="flex space-x-2">
+                                <input type="url" id="websiteUrl" placeholder="Website URL"
+                                    class="input-field flex-1 px-3 py-2 text-sm rounded-lg">
+                                <button onclick="cloneWebsite()" class="btn-secondary px-3 py-2 text-sm rounded-lg">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layers Panel -->
+            <div id="layersPanel" class="flex-1 overflow-y-auto custom-scrollbar hidden" style="padding: 16px 20px;">
+                <div class="space-y-4">
+                    <!-- Layer Controls -->
+                    <div class="property-group">
+                        <div class="property-label">Layer Controls</div>
+                        <div class="flex space-x-2">
+                            <button onclick="duplicateSelectedElement()"
+                                class="btn-secondary flex-1 px-3 py-2 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                                <span>Duplicate</span>
+                            </button>
+                            <button onclick="deleteSelectedElement()"
+                                class="btn-secondary flex-1 px-3 py-2 text-sm rounded-lg flex items-center justify-center space-x-2 hover:bg-red-500/20 hover:border-red-500/30">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="3,6 5,6 21,6" />
+                                    <path
+                                        d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2" />
+                                </svg>
+                                <span>Delete</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Layer Ordering -->
+                    <div class="property-group">
+                        <div class="property-label">Layer Order</div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="moveLayerUp()"
+                                class="btn-secondary px-3 py-2 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="18,15 12,9 6,15" />
+                                </svg>
+                                <span>Bring Forward</span>
+                            </button>
+                            <button onclick="moveLayerDown()"
+                                class="btn-secondary px-3 py-2 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="6,9 12,15 18,9" />
+                                </svg>
+                                <span>Send Back</span>
+                            </button>
+                            <button onclick="moveLayerToTop()"
+                                class="btn-secondary px-3 py-2 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="18,15 12,9 6,15" />
+                                    <polyline points="18,11 12,5 6,11" />
+                                </svg>
+                                <span>To Front</span>
+                            </button>
+                            <button onclick="moveLayerToBottom()"
+                                class="btn-secondary px-3 py-2 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="6,9 12,15 18,9" />
+                                    <polyline points="6,13 12,19 18,13" />
+                                </svg>
+                                <span>To Back</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Layer Tree -->
+                    <div class="property-group">
+                        <div class="property-label">Layer Tree</div>
+                        <div id="elementTree" class="element-tree space-y-1 max-h-96 overflow-y-auto">
+                            <div class="text-center py-8 text-gray-500 text-sm">
+                                No layers yet
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer Visibility -->
+                    <div class="property-group">
+                        <div class="property-label">Layer Actions</div>
+                        <div class="space-y-2">
+                            <button onclick="toggleLayerVisibility()"
+                                class="btn-secondary w-full px-4 py-2 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+                                <span>Toggle Visibility</span>
+                            </button>
+                            <button onclick="lockSelectedElement()"
+                                class="btn-secondary w-full px-4 py-2 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                                <span>Lock/Unlock Layer</span>
+                            </button>
+                            <button onclick="groupSelectedElements()"
+                                class="btn-secondary w-full px-4 py-2 text-sm rounded-lg flex items-center justify-center space-x-2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="3" y="3" width="7" height="7" />
+                                    <rect x="14" y="14" width="7" height="7" />
+                                    <path d="M14 17h-5l-2-2V9.5" />
+                                    <path d="M14 7h-5l-2 2v5.5" />
+                                </svg>
+                                <span>Group Elements</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assets Panel -->
+            <div id="assetsPanel" class="flex-1 overflow-y-auto custom-scrollbar hidden" style="padding: 16px 20px;">
+                <div class="space-y-4">
+                    <!-- Upload Assets -->
+                    <button onclick="document.getElementById('assetFileInput').click()"
+                        class="btn-secondary w-full px-6 py-4 rounded-xl font-semibold flex items-center justify-center space-x-3 hover:scale-105 transition-transform">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7,10 12,15 17,10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        <span>Upload Assets</span>
+                    </button>
+                    <input type="file" id="assetFileInput" accept="image/*,video/*,.pdf,.doc,.docx" multiple
+                        class="hidden" onchange="handleAssetUpload(event)">
+
+                    <!-- Assets List -->
+                    <div class="property-group">
+                        <div class="property-label">Project Assets</div>
+                        <div id="assetsList" class="space-y-2">
+                            <div class="text-center py-8 text-gray-500 text-sm">
+                                No assets uploaded
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Canvas Area -->
+        <div class="flex-1 relative overflow-hidden canvas-area" id="canvasContainer">
+
+            <!-- Canvas -->
+            <div id="canvas" class="absolute inset-0 overflow-auto" style="transform-origin: 0 0;">
+                <div id="canvasContent" class="relative min-h-screen min-w-full" style="width: 1920px; height: 1080px;">
+                    <!-- Design elements will be added here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Properties Panel -->
+        <div id="rightSidebar"
+            class="w-80 properties-panel flex flex-col fixed right-4 top-20 bottom-4 z-50 rounded-3xl overflow-hidden shadow-2xl"
+            style="height: calc(100vh - 120px);">
+            <!-- Drag Handle -->
+            <div id="rightSidebarDragHandle"
+                class="absolute top-2 left-2 w-8 h-8 cursor-move opacity-50 hover:opacity-100 transition-opacity flex items-center justify-center text-gray-400 hover:text-accent-primary z-10 bg-black/20 rounded-lg backdrop-blur-sm"
+                title="Drag to move properties panel">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="9" cy="12" r="1" />
+                    <circle cx="9" cy="5" r="1" />
+                    <circle cx="9" cy="19" r="1" />
+                    <circle cx="15" cy="12" r="1" />
+                    <circle cx="15" cy="5" r="1" />
+                    <circle cx="15" cy="19" r="1" />
+                </svg>
+            </div>
+            <!-- Properties Header -->
+            <div class="p-4 border-b border-white/10 flex items-center justify-between">
+                <h3 class="text-lg font-semibold">Properties</h3>
+                <button onclick="togglePropertiesPanel()" class="toolbar-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 18l6-6-6-6" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Properties Content -->
+            <div class="flex-1 overflow-y-auto custom-scrollbar p-4" id="propertiesContent">
+                <div id="noSelection" class="text-center py-16">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl glass-panel flex items-center justify-center">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" class="text-gray-400">
+                            <path d="M9 12l2 2 4-4" />
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                        </svg>
+                    </div>
+                    <p class="text-gray-400 text-sm font-medium mb-2">No Element Selected</p>
+                    <p class="text-gray-500 text-xs">Select an element to edit its properties</p>
+                </div>
+
+                <div id="elementProperties" class="space-y-4 hidden">
+                    <!-- Element Info -->
+                    <div class="property-group">
+                        <div class="property-label">Element Info</div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-400">Type:</span>
+                                <span id="elementType" class="text-sm font-mono">-</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-400">ID:</span>
+                                <input type="text" id="elementId"
+                                    class="input-field px-2 py-1 text-xs rounded font-mono flex-1 ml-2">
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-400">Classes:</span>
+                                <input type="text" id="elementClasses"
+                                    class="input-field px-2 py-1 text-xs rounded font-mono flex-1 ml-2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Position & Size -->
+                    <div class="property-group">
+                        <div class="property-label">Position & Size</div>
+                        <div class="grid grid-cols-2 gap-2 mb-3">
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">X</label>
+                                <input type="number" id="posX" class="input-field w-full px-2 py-1 text-sm rounded">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">Y</label>
+                                <input type="number" id="posY" class="input-field w-full px-2 py-1 text-sm rounded">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">Width</label>
+                                <input type="number" id="width" class="input-field w-full px-2 py-1 text-sm rounded">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">Height</label>
+                                <input type="number" id="height" class="input-field w-full px-2 py-1 text-sm rounded">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Styling -->
+                    <div class="property-group">
+                        <div class="property-label">Styling</div>
+                        <div class="space-y-3">
+                            <!-- Background -->
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-2">Background</label>
+                                <div class="flex items-center space-x-2">
+                                    <input type="color" id="bgColor" class="color-picker"
+                                        onchange="updateElementStyle('backgroundColor', this.value)">
+                                    <input type="text" id="bgValue"
+                                        class="input-field flex-1 px-2 py-1 text-xs rounded font-mono"
+                                        placeholder="#ffffff">
+                                </div>
+                            </div>
+
+                            <!-- Border -->
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-2">Border</label>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <input type="number" id="borderWidth" placeholder="Width"
+                                        class="input-field px-2 py-1 text-xs rounded" onchange="updateBorder()">
+                                    <select id="borderStyle" class="input-field px-2 py-1 text-xs rounded"
+                                        onchange="updateBorder()">
+                                        <option value="solid">Solid</option>
+                                        <option value="dashed">Dashed</option>
+                                        <option value="dotted">Dotted</option>
+                                        <option value="none">None</option>
+                                    </select>
+                                    <input type="color" id="borderColor" class="color-picker" onchange="updateBorder()">
+                                </div>
+                            </div>
+
+                            <!-- Border Radius -->
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-2">Border Radius</label>
+                                <input type="range" id="borderRadius" min="0" max="50" value="0" class="slider"
+                                    oninput="updateElementStyle('borderRadius', this.value + 'px')">
+                                <div class="text-xs text-center text-gray-400 mt-1" id="borderRadiusValue">0px</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Typography (for text elements) -->
+                    <div class="property-group" id="typographyPanel" style="display: none;">
+                        <div class="property-label">Typography</div>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-2">Font Size</label>
+                                <input type="range" id="fontSize" min="8" max="72" value="16" class="slider"
+                                    oninput="updateElementStyle('fontSize', this.value + 'px')">
+                                <div class="text-xs text-center text-gray-400 mt-1" id="fontSizeValue">16px</div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-2">Font Weight</label>
+                                <select id="fontWeight" class="input-field w-full px-2 py-1 text-sm rounded"
+                                    onchange="updateElementStyle('fontWeight', this.value)">
+                                    <option value="300">Light</option>
+                                    <option value="400">Regular</option>
+                                    <option value="500">Medium</option>
+                                    <option value="600">Semibold</option>
+                                    <option value="700">Bold</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-2">Text Color</label>
+                                <input type="color" id="textColor" class="color-picker"
+                                    onchange="updateElementStyle('color', this.value)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CSS Editor -->
+                    <div class="property-group">
+                        <div class="property-label">Custom CSS</div>
+                        <textarea id="customCSS" rows="6"
+                            class="code-editor w-full px-3 py-2 text-xs rounded resize-none"
+                            placeholder="/* Custom CSS styles */"></textarea>
+                        <button onclick="applyCustomCSS()"
+                            class="btn-secondary w-full mt-2 px-4 py-2 text-sm rounded-lg">
+                            Apply CSS
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Toolbar -->
+    <div
+        class="fixed bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 glass-panel px-3 md:px-6 py-3 md:py-4 flex items-center space-x-2 md:space-x-3 z-40 rounded-2xl md:rounded-3xl shadow-2xl border-2 border-white/20">
+        <!-- Selection Tools -->
+        <button class="toolbar-btn active" id="selectTool" onclick="activateTool('select')" title="Select (V)">
+            <svg width="16" height="16" md:width="18" md:height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" />
+            </svg>
+        </button>
+
+        <div class="w-px h-6 md:h-8 bg-white/20 mx-1 md:mx-2"></div>
+
+        <!-- Element Tools -->
+        <button class="toolbar-btn" onclick="activateTool('rectangle')" title="Rectangle (R)">
+            <svg width="16" height="16" md:width="18" md:height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            </svg>
+        </button>
+
+        <button class="toolbar-btn" onclick="activateTool('text')" title="Text (T)">
+            <svg width="16" height="16" md:width="18" md:height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <polyline points="4,7 4,4 20,4 20,7" />
+                <line x1="9" y1="20" x2="15" y2="20" />
+                <line x1="12" y1="4" x2="12" y2="20" />
+            </svg>
+        </button>
+
+        <button class="toolbar-btn mobile-hidden" onclick="activateTool('circle')" title="Circle (O)">
+            <svg width="16" height="16" md:width="18" md:height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+            </svg>
+        </button>
+
+        <div class="w-px h-6 md:h-8 bg-white/20 mx-1 md:mx-2 mobile-hidden"></div>
+
+        <!-- Hand Tool -->
+        <button class="toolbar-btn mobile-hidden" onclick="activateTool('hand')" title="Hand (H)">
+            <svg width="16" height="16" md:width="18" md:height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <path d="M18 11v-1a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v1" />
+                <path d="M14 10V9a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v1" />
+                <path d="M10 10V9a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v1" />
+                <path d="M6 10v8a6 6 0 0 0 6 6h2a6 6 0 0 0 6-6v-4h-4" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Theme Popup -->
+    <div id="themePopup" class="fixed top-20 right-6 z-50 hidden">
+        <div class="glass-panel rounded-2xl p-6 w-80 max-h-96 overflow-y-auto custom-scrollbar">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-white">Themes</h3>
+                <button onclick="closeThemePopup()" class="toolbar-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-4 gap-3" id="themeGrid">
+                <!-- Theme pellets will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Popup Modal -->
+    <div id="templatePopup"
+        class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 md:p-4">
+        <div
+            class="glass-panel rounded-2xl md:rounded-3xl max-w-6xl w-full max-h-[95vh] md:max-h-[90vh] overflow-hidden">
+            <!-- Popup Header -->
+            <div class="flex items-center justify-between p-4 md:p-6 border-b border-white/10">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-bold text-white">Template Library</h2>
+                    <p class="text-gray-300 text-xs md:text-sm mt-1 mobile-hidden">Choose from our collection of
+                        professional templates</p>
+                </div>
+                <button onclick="closeTemplatePopup()" class="toolbar-btn">
+                    <svg width="18" height="18" md:width="20" md:height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Template Grid -->
+            <div
+                class="p-3 md:p-6 overflow-y-auto custom-scrollbar max-h-[calc(95vh-80px)] md:max-h-[calc(90vh-120px)]">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6" id="templateGrid">
+                    <!-- Templates will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global State
+        let currentTool = 'select';
+        let selectedElement = null;
+        let zoomLevel = 1;
+        let gridEnabled = false;
+        let elementCounter = 0;
+        let projectData = {
+            elements: [],
+            assets: [],
+            settings: {}
+        };
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('🚀 Advanced Web Design Studio Initialized');
+            loadTemplateLibrary();
+            setupEventListeners();
+            loadFromLocalStorage();
+            setupResponsiveHandlers();
+            loadSavedTheme();
+            makeSidebarsDraggable();
+
+            // Force apply mint theme on load
+            applyTheme('mint-ocean');
+        });
+
+        // Load saved theme on startup
+        function loadSavedTheme() {
+            const savedTheme = localStorage.getItem('selectedTheme');
+            if (savedTheme && themeSystem[savedTheme]) {
+                currentTheme = savedTheme;
+                applyTheme(savedTheme);
+            }
+        }
+
+        // Setup Responsive Handlers
+        function setupResponsiveHandlers() {
+            // Handle window resize to keep sidebars within bounds
+            window.addEventListener('resize', function () {
+                const leftSidebar = document.getElementById('leftSidebar');
+                const rightSidebar = document.getElementById('rightSidebar');
+
+                // Ensure sidebars stay within viewport
+                const leftRect = leftSidebar.getBoundingClientRect();
+                const rightRect = rightSidebar.getBoundingClientRect();
+
+                if (leftRect.right > window.innerWidth) {
+                    leftSidebar.style.left = (window.innerWidth - leftSidebar.offsetWidth) + 'px';
+                }
+                if (leftRect.bottom > window.innerHeight) {
+                    leftSidebar.style.top = (window.innerHeight - leftSidebar.offsetHeight) + 'px';
+                }
+
+                if (rightRect.right > window.innerWidth) {
+                    rightSidebar.style.left = (window.innerWidth - rightSidebar.offsetWidth) + 'px';
+                }
+                if (rightRect.bottom > window.innerHeight) {
+                    rightSidebar.style.top = (window.innerHeight - rightSidebar.offsetHeight) + 'px';
+                }
+            });
+        }
+
+        // Tool Management
+        function activateTool(tool) {
+            // Remove active class from all tools
+            document.querySelectorAll('.toolbar-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Add active class to selected tool
+            const toolElement = document.getElementById(tool + 'Tool') || event.target.closest('.toolbar-btn');
+            if (toolElement) {
+                toolElement.classList.add('active');
+            }
+
+            currentTool = tool;
+
+            // Update cursor
+            const canvas = document.getElementById('canvas');
+            switch (tool) {
+                case 'hand':
+                    canvas.style.cursor = 'grab';
+                    break;
+                default:
+                    canvas.style.cursor = 'default';
+            }
+
+            showNotification(`${tool.charAt(0).toUpperCase() + tool.slice(1)} tool activated`, 'info');
+        }
+
+        // Tab Management
+        function switchTab(tab) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show/hide panels
+            document.getElementById('designPanel').classList.add('hidden');
+            document.getElementById('layersPanel').classList.add('hidden');
+            document.getElementById('assetsPanel').classList.add('hidden');
+
+            document.getElementById(tab + 'Panel').classList.remove('hidden');
+        }
+
+        // File Upload Handler
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                if (file.name.endsWith('.zip')) {
+                    // Handle ZIP file
+                    handleZipFile(e.target.result);
+                } else {
+                    // Handle HTML file
+                    importHtmlContent(e.target.result);
+                }
+            };
+
+            if (file.name.endsWith('.zip')) {
+                reader.readAsArrayBuffer(file);
+            } else {
+                reader.readAsText(file);
+            }
+        }
+
+        // Import HTML Code
+        function importHtmlCode() {
+            const htmlCode = document.getElementById('htmlCodeInput').value.trim();
+            if (!htmlCode) {
+                showNotification('Please enter HTML code to import', 'error');
+                return;
+            }
+
+            importHtmlContent(htmlCode);
+            document.getElementById('htmlCodeInput').value = '';
+        }
+
+        // Import HTML Content
+        function importHtmlContent(htmlContent) {
+            try {
+                // Create temporary container
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = htmlContent;
+
+                // Extract and process elements
+                const elements = Array.from(tempDiv.children);
+                let offsetX = 50;
+                let offsetY = 50;
+
+                elements.forEach((element, index) => {
+                    const designElement = createDesignElement(element, offsetX + (index * 20), offsetY + (index * 20));
+                    addToCanvas(designElement);
+                });
+
+                showNotification(`Imported ${elements.length} elements successfully!`, 'success');
+                updateElementTree();
+
+            } catch (error) {
+                showNotification('Error importing HTML: ' + error.message, 'error');
+            }
+        }
+
+        // Clone Website
+        async function cloneWebsite() {
+            const url = document.getElementById('websiteUrl').value.trim();
+            if (!url) {
+                showNotification('Please enter a website URL', 'error');
+                return;
+            }
+
+            showNotification('Cloning website... This may take a moment', 'info');
+
+            try {
+                // Note: This is a simplified version. In production, you'd need a backend service
+                // to handle CORS and properly scrape websites
+
+                // For demo purposes, we'll create a proxy request
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+
+                if (data.contents) {
+                    importHtmlContent(data.contents);
+                    showNotification('Website cloned successfully!', 'success');
+                } else {
+                    throw new Error('Failed to fetch website content');
+                }
+
+            } catch (error) {
+                // Fallback: Create a demo cloned element
+                const demoElement = document.createElement('div');
+                demoElement.innerHTML = `
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 12px; color: white; max-width: 400px;">
+                        <h2 style="margin: 0 0 10px 0; font-size: 24px;">Cloned from: ${url}</h2>
+                        <p style="margin: 0; opacity: 0.9;">This is a demo representation of the cloned website. In production, the full website structure would be imported.</p>
+                    </div>
+                `;
+
+                const designElement = createDesignElement(demoElement.firstElementChild, 100, 100);
+                addToCanvas(designElement);
+
+                showNotification('Demo clone created (full cloning requires backend service)', 'info');
+            }
+        }
+
+        // Create Design Element
+        function createDesignElement(sourceElement, x, y) {
+            const element = sourceElement.cloneNode(true);
+            element.classList.add('design-element');
+            element.style.position = 'absolute';
+            element.style.left = x + 'px';
+            element.style.top = y + 'px';
+
+            // Ensure minimum size
+            if (!element.style.width && element.offsetWidth < 50) {
+                element.style.minWidth = '100px';
+            }
+            if (!element.style.height && element.offsetHeight < 20) {
+                element.style.minHeight = '50px';
+            }
+
+            elementCounter++;
+            element.id = element.id || `element-${elementCounter}`;
+
+            // Make draggable and selectable
+            makeDraggable(element);
+            makeSelectable(element);
+
+            return element;
+        }
+
+        // Add Element to Canvas
+        function addToCanvas(element) {
+            document.getElementById('canvasContent').appendChild(element);
+
+            // Add to project data
+            projectData.elements.push({
+                id: element.id,
+                type: element.tagName.toLowerCase(),
+                html: element.outerHTML,
+                styles: getComputedStyle(element)
+            });
+
+            saveToLocalStorage();
+        }
+
+        // Make Element Draggable
+        function makeDraggable(element) {
+            let isDragging = false;
+            let startX, startY, initialX, initialY;
+            let dragElement = null;
+
+            // Set default cursor to move
+            element.style.cursor = 'move';
+
+            // Add mouse move listener for cursor changes
+            element.addEventListener('mousemove', function (e) {
+                const rect = element.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const threshold = 8; // pixels from edge for resize cursor
+
+                const nearTop = y <= threshold;
+                const nearBottom = y >= rect.height - threshold;
+                const nearLeft = x <= threshold;
+                const nearRight = x >= rect.width - threshold;
+
+                // Only show resize cursors if element is selected
+                if (selectedElement === element) {
+                    if ((nearTop && nearLeft) || (nearBottom && nearRight)) {
+                        element.style.cursor = 'nw-resize';
+                    } else if ((nearTop && nearRight) || (nearBottom && nearLeft)) {
+                        element.style.cursor = 'ne-resize';
+                    } else if (nearTop || nearBottom) {
+                        element.style.cursor = 'n-resize';
+                    } else if (nearLeft || nearRight) {
+                        element.style.cursor = 'e-resize';
+                    } else {
+                        element.style.cursor = 'move';
+                    }
+                } else {
+                    element.style.cursor = 'move';
+                }
+            });
+
+            element.addEventListener('mouseleave', function () {
+                if (!isDragging) {
+                    element.style.cursor = 'move';
+                }
+            });
+
+            element.addEventListener('mousedown', function (e) {
+                // Don't interfere with resize handles
+                if (e.target.classList.contains('resize-handle')) return;
+
+                // Auto-select element when starting to drag
+                selectElement(element);
+
+                const rect = element.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const threshold = 8;
+
+                const nearEdge = x <= threshold || x >= rect.width - threshold ||
+                    y <= threshold || y >= rect.height - threshold;
+
+                // If near edge and element is selected, start resizing
+                if (nearEdge) {
+                    startEdgeResize(e, element, x, y, rect);
+                    return;
+                }
+
+                // Otherwise, start dragging immediately
+                isDragging = true;
+                dragElement = element;
+                startX = e.clientX;
+                startY = e.clientY;
+                initialX = parseInt(element.style.left) || 0;
+                initialY = parseInt(element.style.top) || 0;
+
+                element.style.cursor = 'grabbing';
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            document.addEventListener('mousemove', function (e) {
+                if (!isDragging || !dragElement) return;
+
+                const deltaX = (e.clientX - startX) / zoomLevel;
+                const deltaY = (e.clientY - startY) / zoomLevel;
+
+                dragElement.style.left = (initialX + deltaX) + 'px';
+                dragElement.style.top = (initialY + deltaY) + 'px';
+
+                updatePropertiesPanel();
+            });
+
+            document.addEventListener('mouseup', function () {
+                if (isDragging) {
+                    isDragging = false;
+                    if (dragElement) {
+                        dragElement.style.cursor = 'move';
+                        dragElement = null;
+                    }
+                }
+            });
+        }
+
+        // Edge-based resizing function
+        function startEdgeResize(e, element, x, y, rect) {
+            const threshold = 8;
+            const nearTop = y <= threshold;
+            const nearBottom = y >= rect.height - threshold;
+            const nearLeft = x <= threshold;
+            const nearRight = x >= rect.width - threshold;
+
+            let resizeMode = '';
+            if (nearTop && nearLeft) resizeMode = 'nw';
+            else if (nearTop && nearRight) resizeMode = 'ne';
+            else if (nearBottom && nearLeft) resizeMode = 'sw';
+            else if (nearBottom && nearRight) resizeMode = 'se';
+            else if (nearTop) resizeMode = 'n';
+            else if (nearBottom) resizeMode = 's';
+            else if (nearLeft) resizeMode = 'w';
+            else if (nearRight) resizeMode = 'e';
+
+            if (!resizeMode) return;
+
+            let isResizing = true;
+            const startX = e.clientX;
+            const startY = e.clientY;
+            const startWidth = parseInt(getComputedStyle(element).width);
+            const startHeight = parseInt(getComputedStyle(element).height);
+            const startLeft = parseInt(element.style.left) || 0;
+            const startTop = parseInt(element.style.top) || 0;
+
+            function handleResize(e) {
+                if (!isResizing) return;
+
+                const deltaX = (e.clientX - startX) / zoomLevel;
+                const deltaY = (e.clientY - startY) / zoomLevel;
+
+                let newWidth = startWidth;
+                let newHeight = startHeight;
+                let newLeft = startLeft;
+                let newTop = startTop;
+
+                switch (resizeMode) {
+                    case 'se':
+                        newWidth = startWidth + deltaX;
+                        newHeight = startHeight + deltaY;
+                        break;
+                    case 'sw':
+                        newWidth = startWidth - deltaX;
+                        newHeight = startHeight + deltaY;
+                        newLeft = startLeft + deltaX;
+                        break;
+                    case 'ne':
+                        newWidth = startWidth + deltaX;
+                        newHeight = startHeight - deltaY;
+                        newTop = startTop + deltaY;
+                        break;
+                    case 'nw':
+                        newWidth = startWidth - deltaX;
+                        newHeight = startHeight - deltaY;
+                        newLeft = startLeft + deltaX;
+                        newTop = startTop + deltaY;
+                        break;
+                    case 'e':
+                        newWidth = startWidth + deltaX;
+                        break;
+                    case 'w':
+                        newWidth = startWidth - deltaX;
+                        newLeft = startLeft + deltaX;
+                        break;
+                    case 'n':
+                        newHeight = startHeight - deltaY;
+                        newTop = startTop + deltaY;
+                        break;
+                    case 's':
+                        newHeight = startHeight + deltaY;
+                        break;
+                }
+
+                // Apply minimum size constraints
+                newWidth = Math.max(newWidth, 20);
+                newHeight = Math.max(newHeight, 20);
+
+                element.style.width = newWidth + 'px';
+                element.style.height = newHeight + 'px';
+                element.style.left = newLeft + 'px';
+                element.style.top = newTop + 'px';
+
+                updatePropertiesPanel();
+            }
+
+            function stopResize() {
+                isResizing = false;
+                document.removeEventListener('mousemove', handleResize);
+                document.removeEventListener('mouseup', stopResize);
+            }
+
+            document.addEventListener('mousemove', handleResize);
+            document.addEventListener('mouseup', stopResize);
+
+            e.preventDefault();
+        }
+
+        // Make Element Selectable
+        function makeSelectable(element) {
+            element.addEventListener('click', function (e) {
+                e.stopPropagation();
+                selectElement(element);
+            });
+
+            // Add double-click editing for text elements and buttons
+            if (element.classList.contains('text-element') ||
+                element.tagName.toLowerCase() === 'p' ||
+                element.tagName.toLowerCase() === 'h1' ||
+                element.tagName.toLowerCase() === 'h2' ||
+                element.tagName.toLowerCase() === 'h3' ||
+                element.tagName.toLowerCase() === 'span' ||
+                element.tagName.toLowerCase() === 'button' ||
+                element.contentEditable === 'true') {
+
+                element.addEventListener('dblclick', function (e) {
+                    e.stopPropagation();
+                    startTextEditing(element);
+                });
+            }
+        }
+
+        // Start Text Editing
+        function startTextEditing(element) {
+            // Store original styles
+            const originalWhiteSpace = element.style.whiteSpace;
+            const originalOverflow = element.style.overflow;
+
+            // Make element editable
+            element.contentEditable = true;
+            element.style.whiteSpace = 'pre-wrap';
+            element.style.overflow = 'visible';
+            element.focus();
+
+            // Select all text
+            const range = document.createRange();
+            range.selectNodeContents(element);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            // Add editing styles
+            element.style.outline = '2px solid var(--mint-primary)';
+            element.style.outlineOffset = '2px';
+            element.style.cursor = 'text';
+
+            // Handle finish editing
+            function finishEditing() {
+                element.contentEditable = false;
+                element.style.outline = '';
+                element.style.outlineOffset = '';
+                element.style.cursor = 'move';
+                element.style.whiteSpace = originalWhiteSpace;
+                element.style.overflow = originalOverflow;
+
+                // Auto-resize to fit content
+                const textContent = element.textContent || element.innerText;
+                if (textContent.length > 20) {
+                    element.style.whiteSpace = 'normal';
+                    element.style.width = 'auto';
+                    element.style.maxWidth = '300px';
+                } else {
+                    element.style.whiteSpace = 'nowrap';
+                }
+
+                element.blur();
+
+                // Remove event listeners
+                element.removeEventListener('blur', finishEditing);
+                element.removeEventListener('keydown', handleKeyDown);
+                document.removeEventListener('click', handleClickOutside);
+
+                showNotification('Text updated successfully', 'success');
+                saveToLocalStorage();
+            }
+
+            function handleKeyDown(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    finishEditing();
+                } else if (e.key === 'Escape') {
+                    finishEditing();
+                }
+            }
+
+            function handleClickOutside(e) {
+                if (!element.contains(e.target)) {
+                    finishEditing();
+                }
+            }
+
+            // Add event listeners
+            element.addEventListener('blur', finishEditing);
+            element.addEventListener('keydown', handleKeyDown);
+            setTimeout(() => {
+                document.addEventListener('click', handleClickOutside);
+            }, 100);
+
+            showNotification('Double-click to edit text, Enter to finish', 'info');
+        }
+
+        // Select Element
+        function selectElement(element) {
+            // Deselect all elements
+            document.querySelectorAll('.design-element').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            // Remove existing resize handles
+            document.querySelectorAll('.resize-handle').forEach(handle => handle.remove());
+
+            // Select new element
+            element.classList.add('selected');
+            selectedElement = element;
+
+            // Add resize handles
+            addResizeHandles(element);
+
+            // Update properties panel
+            updatePropertiesPanel();
+
+            // Update element tree
+            updateElementTree();
+
+            showNotification(`Selected ${element.tagName.toLowerCase()} element`, 'info');
+        }
+
+        // Add Resize Handles
+        function addResizeHandles(element) {
+            // Resize handles are now disabled - elements can be resized by dragging edges directly
+            // This function is kept for compatibility but doesn't add visible handles
+        }
+
+        // Make Resizable
+        function makeResizable(handle, element, position) {
+            let isResizing = false;
+            let startX, startY, startWidth, startHeight, startLeft, startTop;
+
+            handle.addEventListener('mousedown', function (e) {
+                isResizing = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                startWidth = parseInt(getComputedStyle(element).width);
+                startHeight = parseInt(getComputedStyle(element).height);
+                startLeft = parseInt(element.style.left) || 0;
+                startTop = parseInt(element.style.top) || 0;
+
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            document.addEventListener('mousemove', function (e) {
+                if (!isResizing) return;
+
+                const deltaX = (e.clientX - startX) / zoomLevel;
+                const deltaY = (e.clientY - startY) / zoomLevel;
+
+                let newWidth = startWidth;
+                let newHeight = startHeight;
+                let newLeft = startLeft;
+                let newTop = startTop;
+
+                switch (position) {
+                    case 'se':
+                        newWidth = startWidth + deltaX;
+                        newHeight = startHeight + deltaY;
+                        break;
+                    case 'sw':
+                        newWidth = startWidth - deltaX;
+                        newHeight = startHeight + deltaY;
+                        newLeft = startLeft + deltaX;
+                        break;
+                    case 'ne':
+                        newWidth = startWidth + deltaX;
+                        newHeight = startHeight - deltaY;
+                        newTop = startTop + deltaY;
+                        break;
+                    case 'nw':
+                        newWidth = startWidth - deltaX;
+                        newHeight = startHeight - deltaY;
+                        newLeft = startLeft + deltaX;
+                        newTop = startTop + deltaY;
+                        break;
+                    case 'e':
+                        newWidth = startWidth + deltaX;
+                        break;
+                    case 'w':
+                        newWidth = startWidth - deltaX;
+                        newLeft = startLeft + deltaX;
+                        break;
+                    case 'n':
+                        newHeight = startHeight - deltaY;
+                        newTop = startTop + deltaY;
+                        break;
+                    case 's':
+                        newHeight = startHeight + deltaY;
+                        break;
+                }
+
+                // Apply minimum size constraints
+                newWidth = Math.max(newWidth, 20);
+                newHeight = Math.max(newHeight, 20);
+
+                element.style.width = newWidth + 'px';
+                element.style.height = newHeight + 'px';
+                element.style.left = newLeft + 'px';
+                element.style.top = newTop + 'px';
+
+                updatePropertiesPanel();
+            });
+
+            document.addEventListener('mouseup', function () {
+                isResizing = false;
+            });
+        }
+
+        // Update Properties Panel
+        function updatePropertiesPanel() {
+            if (!selectedElement) {
+                document.getElementById('noSelection').classList.remove('hidden');
+                document.getElementById('elementProperties').classList.add('hidden');
+                return;
+            }
+
+            document.getElementById('noSelection').classList.add('hidden');
+            document.getElementById('elementProperties').classList.remove('hidden');
+
+            // Update element info
+            document.getElementById('elementType').textContent = selectedElement.tagName.toLowerCase();
+            document.getElementById('elementId').value = selectedElement.id || '';
+            document.getElementById('elementClasses').value = selectedElement.className.replace('design-element', '').replace('selected', '').trim();
+
+            // Update position and size
+            document.getElementById('posX').value = parseInt(selectedElement.style.left) || 0;
+            document.getElementById('posY').value = parseInt(selectedElement.style.top) || 0;
+            document.getElementById('width').value = parseInt(selectedElement.style.width) || selectedElement.offsetWidth;
+            document.getElementById('height').value = parseInt(selectedElement.style.height) || selectedElement.offsetHeight;
+
+            // Update styling - use inline styles first, then computed styles as fallback
+            let backgroundColor = selectedElement.style.backgroundColor;
+            if (!backgroundColor || backgroundColor === 'transparent' || backgroundColor === 'rgba(0, 0, 0, 0)') {
+                const computedStyle = getComputedStyle(selectedElement);
+                backgroundColor = computedStyle.backgroundColor;
+            }
+
+            const bgColorHex = rgbToHex(backgroundColor) || '#ffffff';
+            document.getElementById('bgColor').value = bgColorHex;
+            document.getElementById('bgValue').value = backgroundColor || 'transparent';
+
+            // Update border properties
+            const borderWidth = selectedElement.style.borderWidth || getComputedStyle(selectedElement).borderWidth;
+            const borderStyle = selectedElement.style.borderStyle || getComputedStyle(selectedElement).borderStyle;
+            const borderColor = selectedElement.style.borderColor || getComputedStyle(selectedElement).borderColor;
+
+            document.getElementById('borderWidth').value = parseInt(borderWidth) || 0;
+            document.getElementById('borderStyle').value = borderStyle === 'none' ? 'none' : (borderStyle || 'solid');
+            document.getElementById('borderColor').value = rgbToHex(borderColor) || '#000000';
+
+            // Update border radius
+            const borderRadius = selectedElement.style.borderRadius || getComputedStyle(selectedElement).borderRadius;
+            const radiusValue = parseInt(borderRadius) || 0;
+            document.getElementById('borderRadius').value = radiusValue;
+            document.getElementById('borderRadiusValue').textContent = radiusValue + 'px';
+
+            // Show typography panel for text elements and buttons
+            const isTextElement = selectedElement.tagName.toLowerCase() === 'p' ||
+                selectedElement.tagName.toLowerCase() === 'h1' ||
+                selectedElement.tagName.toLowerCase() === 'h2' ||
+                selectedElement.tagName.toLowerCase() === 'h3' ||
+                selectedElement.tagName.toLowerCase() === 'span' ||
+                selectedElement.tagName.toLowerCase() === 'button' ||
+                selectedElement.contentEditable === 'true' ||
+                selectedElement.classList.contains('text-element');
+
+            document.getElementById('typographyPanel').style.display = isTextElement ? 'block' : 'none';
+
+            if (isTextElement) {
+                const computedStyle = getComputedStyle(selectedElement);
+                const fontSize = selectedElement.style.fontSize || computedStyle.fontSize;
+                const fontWeight = selectedElement.style.fontWeight || computedStyle.fontWeight;
+                const textColor = selectedElement.style.color || computedStyle.color;
+
+                document.getElementById('fontSize').value = parseInt(fontSize) || 16;
+                document.getElementById('fontSizeValue').textContent = fontSize || '16px';
+                document.getElementById('fontWeight').value = fontWeight || '400';
+                document.getElementById('textColor').value = rgbToHex(textColor) || '#000000';
+            }
+        }
+
+        // Update Element Style
+        function updateElementStyle(property, value) {
+            if (!selectedElement) return;
+
+            selectedElement.style[property] = value;
+
+            // Update display values
+            if (property === 'borderRadius') {
+                document.getElementById('borderRadiusValue').textContent = value;
+            } else if (property === 'fontSize') {
+                document.getElementById('fontSizeValue').textContent = value;
+            }
+
+            saveToLocalStorage();
+        }
+
+        // Update Border
+        function updateBorder() {
+            if (!selectedElement) return;
+
+            const width = document.getElementById('borderWidth').value || '0';
+            const style = document.getElementById('borderStyle').value || 'solid';
+            const color = document.getElementById('borderColor').value || '#000000';
+
+            selectedElement.style.border = `${width}px ${style} ${color}`;
+            saveToLocalStorage();
+        }
+
+        // Apply Custom CSS
+        function applyCustomCSS() {
+            if (!selectedElement) return;
+
+            const css = document.getElementById('customCSS').value;
+
+            try {
+                // Create a temporary style element to validate CSS
+                const tempStyle = document.createElement('style');
+                tempStyle.textContent = `.temp-class { ${css} }`;
+                document.head.appendChild(tempStyle);
+
+                // Apply styles to element
+                const styles = css.split(';');
+                styles.forEach(style => {
+                    const [property, value] = style.split(':').map(s => s.trim());
+                    if (property && value) {
+                        selectedElement.style[property] = value;
+                    }
+                });
+
+                document.head.removeChild(tempStyle);
+                showNotification('Custom CSS applied successfully!', 'success');
+
+            } catch (error) {
+                showNotification('Invalid CSS: ' + error.message, 'error');
+            }
+        }
+
+        // Add Element
+        function addElement(type) {
+            let element;
+
+            switch (type) {
+                case 'div':
+                    element = document.createElement('div');
+                    element.style.width = '200px';
+                    element.style.height = '100px';
+                    element.style.background = 'rgba(16, 217, 196, 0.2)';
+                    element.style.backdropFilter = 'blur(20px)';
+                    element.style.webkitBackdropFilter = 'blur(20px)';
+                    element.style.border = '1px solid rgba(16, 217, 196, 0.3)';
+                    element.style.borderRadius = '12px';
+                    element.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.3)';
+                    break;
+
+                case 'button':
+                    element = document.createElement('button');
+                    element.textContent = 'Button';
+                    element.style.padding = '12px 24px';
+                    element.style.background = 'rgba(16, 217, 196, 0.2)';
+                    element.style.backdropFilter = 'blur(20px)';
+                    element.style.webkitBackdropFilter = 'blur(20px)';
+                    element.style.color = 'white';
+                    element.style.border = '1px solid rgba(16, 217, 196, 0.3)';
+                    element.style.borderRadius = '12px';
+                    element.style.cursor = 'pointer';
+                    element.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.3)';
+                    element.style.fontWeight = '600';
+                    break;
+
+                case 'input':
+                    element = document.createElement('input');
+                    element.type = 'text';
+                    element.placeholder = 'Enter text...';
+                    element.style.padding = '12px 16px';
+                    element.style.background = 'rgba(255, 255, 255, 0.1)';
+                    element.style.backdropFilter = 'blur(20px)';
+                    element.style.webkitBackdropFilter = 'blur(20px)';
+                    element.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+                    element.style.borderRadius = '12px';
+                    element.style.width = '200px';
+                    element.style.color = 'white';
+                    element.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.3)';
+                    break;
+
+                case 'img':
+                    element = document.createElement('div');
+                    element.style.width = '200px';
+                    element.style.height = '150px';
+                    element.style.background = 'rgba(16, 217, 196, 0.2)';
+                    element.style.backdropFilter = 'blur(20px)';
+                    element.style.webkitBackdropFilter = 'blur(20px)';
+                    element.style.border = '1px solid rgba(16, 217, 196, 0.3)';
+                    element.style.borderRadius = '12px';
+                    element.style.display = 'flex';
+                    element.style.alignItems = 'center';
+                    element.style.justifyContent = 'center';
+                    element.style.color = 'white';
+                    element.style.fontSize = '14px';
+                    element.style.fontWeight = '500';
+                    element.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.3)';
+                    element.textContent = '🖼️ Image Placeholder';
+                    break;
+
+                case 'text':
+                    element = document.createElement('div');
+                    element.textContent = 'Sample Text';
+                    element.style.fontSize = '16px';
+                    element.style.color = 'white';
+                    element.style.margin = '0';
+                    element.style.padding = '8px 12px';
+                    element.style.minWidth = '100px';
+                    element.style.minHeight = '32px';
+                    element.style.display = 'flex';
+                    element.style.alignItems = 'center';
+                    element.style.lineHeight = '1.4';
+                    element.style.whiteSpace = 'nowrap';
+                    element.style.overflow = 'hidden';
+                    element.contentEditable = true;
+                    element.classList.add('text-element');
+                    break;
+
+                case 'card':
+                    element = document.createElement('div');
+                    element.style.width = '300px';
+                    element.style.height = '200px';
+                    element.style.background = 'rgba(255, 255, 255, 0.1)';
+                    element.style.backdropFilter = 'blur(20px)';
+                    element.style.webkitBackdropFilter = 'blur(20px)';
+                    element.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+                    element.style.borderRadius = '16px';
+                    element.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.3)';
+                    element.style.padding = '24px';
+                    element.innerHTML = `
+                        <h3 style="margin: 0 0 12px 0; color: white; font-weight: 600;">Glass Card</h3>
+                        <p style="margin: 0; color: rgba(255, 255, 255, 0.8); font-size: 14px; line-height: 1.5;">This is a beautiful glass card component with backdrop blur effects.</p>
+                    `;
+                    break;
+            }
+
+            const designElement = createDesignElement(element, 100, 100);
+            addToCanvas(designElement);
+            selectElement(designElement);
+
+            showNotification(`${type.charAt(0).toUpperCase() + type.slice(1)} element added`, 'success');
+        }
+
+        // Canvas Controls
+        function toggleGrid() {
+            gridEnabled = !gridEnabled;
+            const canvas = document.getElementById('canvasContent');
+            const gridToggle = document.getElementById('gridToggle');
+
+            if (gridEnabled) {
+                canvas.classList.add('canvas-grid');
+                gridToggle.classList.add('active');
+            } else {
+                canvas.classList.remove('canvas-grid');
+                gridToggle.classList.remove('active');
+            }
+        }
+
+        function toggleRulers() {
+            // Placeholder for rulers functionality
+            showNotification('Rulers feature coming soon!', 'info');
+        }
+
+        function changeCanvasBackground() {
+            const color = document.getElementById('canvasBg').value;
+            document.getElementById('canvasContainer').style.background = `linear-gradient(135deg, ${color} 0%, #1a1a2e 50%, #16213e 100%)`;
+        }
+
+        // Viewport Controls
+        function setViewport(type) {
+            // Remove active class from all viewport buttons
+            document.querySelectorAll('#desktopView, #tabletView, #mobileView').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Add active class to selected viewport
+            document.getElementById(type + 'View').classList.add('active');
+
+            const canvas = document.getElementById('canvasContent');
+
+            switch (type) {
+                case 'desktop':
+                    canvas.style.width = '1920px';
+                    canvas.style.height = '1080px';
+                    break;
+                case 'tablet':
+                    canvas.style.width = '768px';
+                    canvas.style.height = '1024px';
+                    break;
+                case 'mobile':
+                    canvas.style.width = '375px';
+                    canvas.style.height = '667px';
+                    break;
+            }
+
+            showNotification(`Switched to ${type} viewport`, 'info');
+        }
+
+        // Zoom Controls
+        function zoomIn() {
+            zoomLevel = Math.min(zoomLevel * 1.2, 5);
+            applyZoom();
+        }
+
+        function zoomOut() {
+            zoomLevel = Math.max(zoomLevel / 1.2, 0.1);
+            applyZoom();
+        }
+
+        function applyZoom() {
+            document.getElementById('canvas').style.transform = `scale(${zoomLevel})`;
+            document.getElementById('zoomDisplay').textContent = Math.round(zoomLevel * 100) + '%';
+        }
+
+        // Update Element Tree
+        function updateElementTree() {
+            const tree = document.getElementById('elementTree');
+            const elements = document.querySelectorAll('.design-element');
+
+            if (elements.length === 0) {
+                tree.innerHTML = '<div class="text-center py-8 text-gray-500 text-sm">No layers yet</div>';
+                return;
+            }
+
+            tree.innerHTML = '';
+            elements.forEach((element, index) => {
+                const treeItem = document.createElement('div');
+                treeItem.className = 'tree-item';
+                if (element === selectedElement) {
+                    treeItem.classList.add('selected');
+                }
+
+                const isVisible = element.style.display !== 'none';
+                const isLocked = element.dataset.locked === 'true';
+
+                treeItem.innerHTML = `
+                    <div class="flex items-center justify-between w-full">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs text-gray-400">${index + 1}</span>
+                            <span>${element.tagName.toLowerCase()}</span>
+                            <span class="text-gray-500 text-xs">#${element.id}</span>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <button onclick="toggleElementVisibility('${element.id}')" class="text-xs p-1 hover:bg-white/10 rounded">
+                                ${isVisible ? '👁️' : '🙈'}
+                            </button>
+                            <button onclick="toggleElementLock('${element.id}')" class="text-xs p-1 hover:bg-white/10 rounded">
+                                ${isLocked ? '🔒' : '🔓'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                treeItem.addEventListener('click', (e) => {
+                    if (!e.target.closest('button')) {
+                        selectElement(element);
+                    }
+                });
+                tree.appendChild(treeItem);
+            });
+        }
+
+        // Layer Management Functions
+        function duplicateSelectedElement() {
+            if (!selectedElement) {
+                showNotification('Please select an element to duplicate', 'error');
+                return;
+            }
+
+            const clone = selectedElement.cloneNode(true);
+            elementCounter++;
+            clone.id = `element-${elementCounter}`;
+
+            // Offset the clone position
+            const currentLeft = parseInt(selectedElement.style.left) || 0;
+            const currentTop = parseInt(selectedElement.style.top) || 0;
+            clone.style.left = (currentLeft + 20) + 'px';
+            clone.style.top = (currentTop + 20) + 'px';
+
+            // Make the clone interactive
+            makeDraggable(clone);
+            makeSelectable(clone);
+
+            // Add to canvas
+            document.getElementById('canvasContent').appendChild(clone);
+            selectElement(clone);
+            updateElementTree();
+
+            showNotification('Element duplicated successfully', 'success');
+        }
+
+        function deleteSelectedElement() {
+            if (!selectedElement) {
+                showNotification('Please select an element to delete', 'error');
+                return;
+            }
+
+            selectedElement.remove();
+            selectedElement = null;
+            updatePropertiesPanel();
+            updateElementTree();
+
+            showNotification('Element deleted successfully', 'success');
+        }
+
+        function moveLayerUp() {
+            if (!selectedElement) {
+                showNotification('Please select an element', 'error');
+                return;
+            }
+
+            const currentZ = parseInt(selectedElement.style.zIndex) || 0;
+            selectedElement.style.zIndex = currentZ + 1;
+
+            showNotification('Layer moved forward', 'success');
+        }
+
+        function moveLayerDown() {
+            if (!selectedElement) {
+                showNotification('Please select an element', 'error');
+                return;
+            }
+
+            const currentZ = parseInt(selectedElement.style.zIndex) || 0;
+            selectedElement.style.zIndex = Math.max(currentZ - 1, 0);
+
+            showNotification('Layer moved back', 'success');
+        }
+
+        function moveLayerToTop() {
+            if (!selectedElement) {
+                showNotification('Please select an element', 'error');
+                return;
+            }
+
+            // Find the highest z-index
+            const elements = document.querySelectorAll('.design-element');
+            let maxZ = 0;
+            elements.forEach(el => {
+                const z = parseInt(el.style.zIndex) || 0;
+                if (z > maxZ) maxZ = z;
+            });
+
+            selectedElement.style.zIndex = maxZ + 1;
+            showNotification('Layer moved to front', 'success');
+        }
+
+        function moveLayerToBottom() {
+            if (!selectedElement) {
+                showNotification('Please select an element', 'error');
+                return;
+            }
+
+            selectedElement.style.zIndex = 0;
+            showNotification('Layer moved to back', 'success');
+        }
+
+        function toggleLayerVisibility() {
+            if (!selectedElement) {
+                showNotification('Please select an element', 'error');
+                return;
+            }
+
+            const isVisible = selectedElement.style.display !== 'none';
+            selectedElement.style.display = isVisible ? 'none' : '';
+
+            updateElementTree();
+            showNotification(`Layer ${isVisible ? 'hidden' : 'shown'}`, 'success');
+        }
+
+        function toggleElementVisibility(elementId) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+
+            const isVisible = element.style.display !== 'none';
+            element.style.display = isVisible ? 'none' : '';
+
+            updateElementTree();
+            showNotification(`Layer ${isVisible ? 'hidden' : 'shown'}`, 'success');
+        }
+
+        function lockSelectedElement() {
+            if (!selectedElement) {
+                showNotification('Please select an element', 'error');
+                return;
+            }
+
+            const isLocked = selectedElement.dataset.locked === 'true';
+            selectedElement.dataset.locked = isLocked ? 'false' : 'true';
+
+            // Update cursor and interaction
+            if (!isLocked) {
+                selectedElement.style.pointerEvents = 'none';
+                selectedElement.style.opacity = '0.7';
+            } else {
+                selectedElement.style.pointerEvents = '';
+                selectedElement.style.opacity = '';
+            }
+
+            updateElementTree();
+            showNotification(`Layer ${isLocked ? 'unlocked' : 'locked'}`, 'success');
+        }
+
+        function toggleElementLock(elementId) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+
+            const isLocked = element.dataset.locked === 'true';
+            element.dataset.locked = isLocked ? 'false' : 'true';
+
+            // Update cursor and interaction
+            if (!isLocked) {
+                element.style.pointerEvents = 'none';
+                element.style.opacity = '0.7';
+            } else {
+                element.style.pointerEvents = '';
+                element.style.opacity = '';
+            }
+
+            updateElementTree();
+            showNotification(`Layer ${isLocked ? 'unlocked' : 'locked'}`, 'success');
+        }
+
+        function groupSelectedElements() {
+            const selectedElements = document.querySelectorAll('.design-element.selected');
+
+            if (selectedElements.length < 2) {
+                showNotification('Please select at least 2 elements to group', 'error');
+                return;
+            }
+
+            // Create a group container
+            const group = document.createElement('div');
+            group.classList.add('design-element', 'element-group');
+            group.style.position = 'absolute';
+
+            // Calculate group bounds
+            let minX = Infinity, minY = Infinity, maxX = 0, maxY = 0;
+
+            selectedElements.forEach(element => {
+                const rect = element.getBoundingClientRect();
+                const canvasRect = document.getElementById('canvasContent').getBoundingClientRect();
+
+                const x = rect.left - canvasRect.left;
+                const y = rect.top - canvasRect.top;
+                const right = x + rect.width;
+                const bottom = y + rect.height;
+
+                minX = Math.min(minX, x);
+                minY = Math.min(minY, y);
+                maxX = Math.max(maxX, right);
+                maxY = Math.max(maxY, bottom);
+            });
+
+            // Set group position and size
+            group.style.left = minX + 'px';
+            group.style.top = minY + 'px';
+            group.style.width = (maxX - minX) + 'px';
+            group.style.height = (maxY - minY) + 'px';
+            group.style.border = '2px dashed rgba(14, 165, 233, 0.5)';
+            group.style.background = 'rgba(14, 165, 233, 0.1)';
+
+            elementCounter++;
+            group.id = `group-${elementCounter}`;
+
+            // Move elements into group
+            selectedElements.forEach(element => {
+                const elementRect = element.getBoundingClientRect();
+                const groupRect = group.getBoundingClientRect();
+
+                element.style.left = (elementRect.left - groupRect.left) + 'px';
+                element.style.top = (elementRect.top - groupRect.top) + 'px';
+                element.classList.remove('selected');
+
+                group.appendChild(element);
+            });
+
+            // Make group interactive
+            makeDraggable(group);
+            makeSelectable(group);
+
+            // Add to canvas
+            document.getElementById('canvasContent').appendChild(group);
+            selectElement(group);
+            updateElementTree();
+
+            showNotification(`${selectedElements.length} elements grouped`, 'success');
+        }
+
+        // Theme System
+        let currentTheme = 'mint-ocean';
+
+        const themeSystem = {
+            'mint-ocean': {
+                name: 'Mint Ocean',
+                colors: {
+                    primary: '#10d9c4',
+                    secondary: '#0db5a3',
+                    tertiary: '#0a9082'
+                }
+            },
+            'gold-premium': {
+                name: 'Gold Premium',
+                colors: {
+                    primary: '#d4af37',
+                    secondary: '#b8941f',
+                    tertiary: '#9c7e0a'
+                }
+            },
+            'purple-dream': {
+                name: 'Purple Dream',
+                colors: {
+                    primary: '#8b5cf6',
+                    secondary: '#7c3aed',
+                    tertiary: '#6d28d9'
+                }
+            },
+            'sunset-glow': {
+                name: 'Sunset Glow',
+                colors: {
+                    primary: '#f59e0b',
+                    secondary: '#d97706',
+                    tertiary: '#b45309'
+                }
+            },
+            'rose-gold': {
+                name: 'Rose Gold',
+                colors: {
+                    primary: '#ec4899',
+                    secondary: '#be185d',
+                    tertiary: '#9d174d'
+                }
+            },
+            'electric-blue': {
+                name: 'Electric Blue',
+                colors: {
+                    primary: '#3b82f6',
+                    secondary: '#2563eb',
+                    tertiary: '#1d4ed8'
+                }
+            },
+            'forest-green': {
+                name: 'Forest Green',
+                colors: {
+                    primary: '#10b981',
+                    secondary: '#059669',
+                    tertiary: '#047857'
+                }
+            },
+            'crimson-fire': {
+                name: 'Crimson Fire',
+                colors: {
+                    primary: '#ef4444',
+                    secondary: '#dc2626',
+                    tertiary: '#b91c1c'
+                }
+            },
+            'cyber-neon': {
+                name: 'Cyber Neon',
+                colors: {
+                    primary: '#06b6d4',
+                    secondary: '#0891b2',
+                    tertiary: '#0e7490'
+                }
+            },
+            'golden-hour': {
+                name: 'Golden Hour',
+                colors: {
+                    primary: '#fbbf24',
+                    secondary: '#f59e0b',
+                    tertiary: '#d97706'
+                }
+            },
+            'midnight-blue': {
+                name: 'Midnight Blue',
+                colors: {
+                    primary: '#1e40af',
+                    secondary: '#1e3a8a',
+                    tertiary: '#1d4ed8'
+                }
+            },
+            'lavender-mist': {
+                name: 'Lavender Mist',
+                colors: {
+                    primary: '#a78bfa',
+                    secondary: '#8b5cf6',
+                    tertiary: '#7c3aed'
+                }
+            },
+            'emerald-shine': {
+                name: 'Emerald Shine',
+                colors: {
+                    primary: '#34d399',
+                    secondary: '#10b981',
+                    tertiary: '#059669'
+                }
+            }
+        };
+
+        function toggleThemePopup() {
+            const popup = document.getElementById('themePopup');
+            if (popup.classList.contains('hidden')) {
+                popup.classList.remove('hidden');
+                loadThemeGrid();
+            } else {
+                popup.classList.add('hidden');
+            }
+        }
+
+        function closeThemePopup() {
+            document.getElementById('themePopup').classList.add('hidden');
+        }
+
+        function loadThemeGrid() {
+            const grid = document.getElementById('themeGrid');
+            grid.innerHTML = '';
+
+            Object.entries(themeSystem).forEach(([themeId, theme]) => {
+                const pellet = document.createElement('div');
+                pellet.className = `relative cursor-pointer group transition-all duration-200 hover:scale-110 ${currentTheme === themeId ? 'ring-2 ring-white ring-offset-2 ring-offset-transparent' : ''}`;
+                pellet.title = theme.name;
+
+                pellet.innerHTML = `
+                    <div class="w-16 h-16 rounded-full overflow-hidden relative" style="background: linear-gradient(135deg, ${theme.colors.primary} 0%, ${theme.colors.secondary} 50%, ${theme.colors.tertiary} 100%);">
+                        <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
+                        ${currentTheme === themeId ? '<div class="absolute inset-0 flex items-center justify-center text-white text-lg">✓</div>' : ''}
+                    </div>
+                    <div class="text-xs text-center text-gray-300 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">${theme.name}</div>
+                `;
+
+                pellet.addEventListener('click', () => {
+                    applyTheme(themeId);
+                    closeThemePopup();
+                });
+
+                grid.appendChild(pellet);
+            });
+        }
+
+        function applyTheme(themeId) {
+            const theme = themeSystem[themeId];
+            if (!theme) return;
+
+            // Update current theme
+            currentTheme = themeId;
+
+            // Helper function to convert hex to rgba
+            const hexToRgba = (hex, alpha) => {
+                const r = parseInt(hex.slice(1, 3), 16);
+                const g = parseInt(hex.slice(3, 5), 16);
+                const b = parseInt(hex.slice(5, 7), 16);
+                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            };
+
+            // Update all CSS custom properties with the new theme colors
+            document.documentElement.style.setProperty('--accent-primary', theme.colors.primary);
+            document.documentElement.style.setProperty('--accent-secondary', theme.colors.secondary);
+            document.documentElement.style.setProperty('--accent-tertiary', theme.colors.tertiary);
+
+            // Update derived color properties
+            document.documentElement.style.setProperty('--accent-muted', hexToRgba(theme.colors.primary, 0.6));
+            document.documentElement.style.setProperty('--accent-subtle', hexToRgba(theme.colors.primary, 0.15));
+            document.documentElement.style.setProperty('--accent-ghost', hexToRgba(theme.colors.primary, 0.05));
+
+            // Update hairline colors
+            document.documentElement.style.setProperty('--hairline-primary', hexToRgba(theme.colors.primary, 0.25));
+            document.documentElement.style.setProperty('--hairline-cyan', hexToRgba(theme.colors.secondary, 0.15));
+
+            // Update glow effects
+            document.documentElement.style.setProperty('--glow-accent-sm', `0 0 16px ${hexToRgba(theme.colors.primary, 0.4)}`);
+            document.documentElement.style.setProperty('--glow-accent-md', `0 0 24px ${hexToRgba(theme.colors.primary, 0.5)}`);
+            document.documentElement.style.setProperty('--glow-accent-lg', `0 0 40px ${hexToRgba(theme.colors.primary, 0.6)}`);
+            document.documentElement.style.setProperty('--glow-cyan', `0 0 20px ${hexToRgba(theme.colors.secondary, 0.3)}`);
+
+            // Update text accent color
+            document.documentElement.style.setProperty('--text-accent', theme.colors.primary);
+
+            // Force refresh of elements that use these colors
+            const elementsToUpdate = document.querySelectorAll('.btn-primary, .toolbar-btn, .notification.success, .logo-box');
+            elementsToUpdate.forEach(el => {
+                // Trigger a style recalculation
+                el.style.display = 'none';
+                el.offsetHeight; // Force reflow
+                el.style.display = '';
+            });
+
+            showNotification(`${theme.name} theme applied!`, 'success');
+
+            // Save theme preference
+            localStorage.setItem('selectedTheme', themeId);
+
+            // Refresh theme grid to show new active state
+            if (!document.getElementById('themePopup').classList.contains('hidden')) {
+                loadThemeGrid();
+            }
+        }
+
+        // Handle Asset Upload
+        function handleAssetUpload(event) {
+            const files = Array.from(event.target.files);
+            if (!files.length) return;
+
+            const assetsList = document.getElementById('assetsList');
+
+            // Clear "no assets" message if it exists
+            if (assetsList.querySelector('.text-center')) {
+                assetsList.innerHTML = '';
+            }
+
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const assetItem = document.createElement('div');
+                    assetItem.className = 'flex items-center space-x-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors cursor-pointer';
+
+                    let icon = '📄';
+                    if (file.type.startsWith('image/')) icon = '🖼️';
+                    else if (file.type.startsWith('video/')) icon = '🎥';
+                    else if (file.type.includes('pdf')) icon = '📕';
+
+                    assetItem.innerHTML = `
+                        <div class="text-2xl">${icon}</div>
+                        <div class="flex-1 min-w-0">
+                            <div class="text-sm font-medium text-white truncate">${file.name}</div>
+                            <div class="text-xs text-gray-400">${(file.size / 1024).toFixed(1)} KB</div>
+                        </div>
+                        <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-red-400 transition-colors">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3,6 5,6 21,6"/>
+                                <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"/>
+                            </svg>
+                        </button>
+                    `;
+
+                    // Add click to use functionality for images
+                    if (file.type.startsWith('image/')) {
+                        assetItem.addEventListener('click', () => {
+                            // Create image element with the uploaded file
+                            const imgElement = document.createElement('img');
+                            imgElement.src = e.target.result;
+                            imgElement.style.width = '200px';
+                            imgElement.style.height = 'auto';
+                            imgElement.style.borderRadius = '8px';
+
+                            const designElement = createDesignElement(imgElement, 100, 100);
+                            addToCanvas(designElement);
+                            selectElement(designElement);
+
+                            showNotification(`${file.name} added to canvas`, 'success');
+                        });
+                    }
+
+                    assetsList.appendChild(assetItem);
+                };
+
+                reader.readAsDataURL(file);
+            });
+
+            showNotification(`${files.length} asset(s) uploaded successfully!`, 'success');
+        }
+
+        // Template Popup Functions
+        function openTemplatePopup() {
+            document.getElementById('templatePopup').classList.remove('hidden');
+            loadTemplateGrid();
+        }
+
+        function closeTemplatePopup() {
+            document.getElementById('templatePopup').classList.add('hidden');
+        }
+
+        // Close popup when clicking outside
+        document.getElementById('templatePopup').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeTemplatePopup();
+            }
+        });
+
+        // Close theme popup when clicking outside
+        document.addEventListener('click', function (e) {
+            const themePopup = document.getElementById('themePopup');
+            const themeButton = e.target.closest('[onclick="toggleThemePopup()"]');
+
+            if (!themePopup.contains(e.target) && !themeButton && !themePopup.classList.contains('hidden')) {
+                closeThemePopup();
+            }
+        });
+
+        // Load Template Library
+        function loadTemplateLibrary() {
+            // This function is now used for the popup
+        }
+
+        function loadTemplateGrid() {
+            const grid = document.getElementById('templateGrid');
+            grid.innerHTML = '';
+
+            const templates = [
+                {
+                    name: 'Hero Section',
+                    preview: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    html: `<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 80px 40px; text-align: center; color: white; width: 800px; border-radius: 16px;">
+                        <h1 style="margin: 0 0 20px 0; font-size: 48px; font-weight: 700;">Welcome to Our Platform</h1>
+                        <p style="margin: 0 0 30px 0; font-size: 20px; opacity: 0.9; max-width: 600px; margin-left: auto; margin-right: auto;">Build amazing experiences with our powerful design tools and templates</p>
+                        <button style="padding: 16px 32px; background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 50px; font-size: 16px; font-weight: 600; cursor: pointer; backdrop-filter: blur(10px);">Get Started</button>
+                    </div>`
+                },
+                {
+                    name: 'Feature Card',
+                    preview: 'linear-gradient(135deg, #10d9c4 0%, #0db5a3 100%)',
+                    html: `<div style="background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); width: 320px; text-align: center;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #10d9c4 0%, #0db5a3 100%); border-radius: 16px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 24px;">⚡</div>
+                        <h3 style="margin: 0 0 12px 0; font-size: 20px; color: #1f2937;">Lightning Fast</h3>
+                        <p style="margin: 0; color: #6b7280; line-height: 1.6;">Experience blazing fast performance with our optimized platform</p>
+                    </div>`
+                },
+                {
+                    name: 'Navigation Bar',
+                    preview: 'linear-gradient(135deg, #1f2937 0%, #374151 100%)',
+                    html: `<nav style="background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-radius: 12px;">
+                        <div style="font-size: 24px; font-weight: 700; color: #10d9c4;">Brand</div>
+                        <div style="display: flex; gap: 32px; align-items: center;">
+                            <a href="#" style="color: #374151; text-decoration: none; font-weight: 500;">Home</a>
+                            <a href="#" style="color: #374151; text-decoration: none; font-weight: 500;">About</a>
+                            <a href="#" style="color: #374151; text-decoration: none; font-weight: 500;">Services</a>
+                            <button style="padding: 10px 20px; background: linear-gradient(135deg, #10d9c4 0%, #0db5a3 100%); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Contact</button>
+                        </div>
+                    </nav>`
+                },
+                {
+                    name: 'Pricing Card',
+                    preview: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                    html: `<div style="background: white; padding: 40px 30px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); width: 300px; text-align: center; position: relative; border: 2px solid #f3f4f6;">
+                        <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 6px 20px; border-radius: 20px; font-size: 12px; font-weight: 600;">POPULAR</div>
+                        <h3 style="margin: 20px 0 8px 0; font-size: 24px; color: #1f2937;">Pro Plan</h3>
+                        <div style="margin: 0 0 20px 0;"><span style="font-size: 48px; font-weight: 700; color: #1f2937;">$29</span><span style="color: #6b7280;">/month</span></div>
+                        <ul style="list-style: none; padding: 0; margin: 0 0 30px 0; text-align: left;">
+                            <li style="padding: 8px 0; color: #374151;">✓ Unlimited Projects</li>
+                            <li style="padding: 8px 0; color: #374151;">✓ Premium Templates</li>
+                            <li style="padding: 8px 0; color: #374151;">✓ Priority Support</li>
+                            <li style="padding: 8px 0; color: #374151;">✓ Advanced Analytics</li>
+                        </ul>
+                        <button style="width: 100%; padding: 16px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 16px;">Choose Plan</button>
+                    </div>`
+                },
+                {
+                    name: 'Contact Form',
+                    preview: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                    html: `<div style="background: white; padding: 40px; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); width: 400px;">
+                        <h2 style="margin: 0 0 24px 0; font-size: 28px; color: #1f2937; text-align: center;">Get In Touch</h2>
+                        <form style="display: flex; flex-direction: column; gap: 20px;">
+                            <div>
+                                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Full Name</label>
+                                <input type="text" placeholder="John Doe" style="width: 100%; padding: 14px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; transition: border-color 0.3s;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Email Address</label>
+                                <input type="email" placeholder="john@example.com" style="width: 100%; padding: 14px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Message</label>
+                                <textarea rows="4" placeholder="Your message here..." style="width: 100%; padding: 14px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; resize: vertical;"></textarea>
+                            </div>
+                            <button type="submit" style="padding: 16px; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 16px;">Send Message</button>
+                        </form>
+                    </div>`
+                },
+                {
+                    name: 'Stats Dashboard',
+                    preview: 'linear-gradient(135deg, #10d9c4 0%, #0db5a3 100%)',
+                    html: `<div style="background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); width: 600px;">
+                        <h3 style="margin: 0 0 24px 0; font-size: 20px; color: #1f2937;">Analytics Overview</h3>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                            <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #10d9c4 0%, #0db5a3 100%); border-radius: 12px; color: white;">
+                                <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">2.4K</div>
+                                <div style="font-size: 14px; opacity: 0.9;">Total Users</div>
+                            </div>
+                            <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 12px; color: white;">
+                                <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">$12.5K</div>
+                                <div style="font-size: 14px; opacity: 0.9;">Revenue</div>
+                            </div>
+                            <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 12px; color: white;">
+                                <div style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">98.2%</div>
+                                <div style="font-size: 14px; opacity: 0.9;">Uptime</div>
+                            </div>
+                        </div>
+                    </div>`
+                },
+                {
+                    name: 'Team Member Card',
+                    preview: 'linear-gradient(135deg, #ec4899 0%, #be185d 100%)',
+                    html: `<div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.1); width: 280px; text-align: center;">
+                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #ec4899 0%, #be185d 100%); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 32px; color: white;">👨‍💻</div>
+                        <h3 style="margin: 0 0 8px 0; font-size: 20px; color: #1f2937;">Alex Johnson</h3>
+                        <p style="margin: 0 0 16px 0; color: #6b7280; font-size: 14px;">Senior Developer</p>
+                        <p style="margin: 0 0 20px 0; color: #6b7280; font-size: 14px; line-height: 1.5;">Passionate about creating beautiful and functional web experiences</p>
+                        <div style="display: flex; justify-content: center; gap: 12px;">
+                            <div style="width: 36px; height: 36px; background: #f3f4f6; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer;">📧</div>
+                            <div style="width: 36px; height: 36px; background: #f3f4f6; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer;">🐦</div>
+                            <div style="width: 36px; height: 36px; background: #f3f4f6; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer;">💼</div>
+                        </div>
+                    </div>`
+                },
+                {
+                    name: 'Product Showcase',
+                    preview: 'linear-gradient(135deg, #10d9c4 0%, #0db5a3 100%)',
+                    html: `<div style="background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); width: 350px; overflow: hidden;">
+                        <div style="height: 200px; background: linear-gradient(135deg, #10d9c4 0%, #0db5a3 100%); display: flex; align-items: center; justify-content: center; font-size: 48px; color: white;">📱</div>
+                        <div style="padding: 30px;">
+                            <h3 style="margin: 0 0 12px 0; font-size: 22px; color: #1f2937;">Premium Mobile App</h3>
+                            <p style="margin: 0 0 20px 0; color: #6b7280; line-height: 1.6;">Experience the future of mobile technology with our cutting-edge application</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <span style="font-size: 28px; font-weight: 700; color: #1f2937;">$49.99</span>
+                                <div style="display: flex; gap: 4px;">
+                                    <span style="color: #fbbf24;">⭐</span>
+                                    <span style="color: #fbbf24;">⭐</span>
+                                    <span style="color: #fbbf24;">⭐</span>
+                                    <span style="color: #fbbf24;">⭐</span>
+                                    <span style="color: #fbbf24;">⭐</span>
+                                    <span style="color: #6b7280; font-size: 14px; margin-left: 8px;">(4.9)</span>
+                                </div>
+                            </div>
+                            <button style="width: 100%; padding: 14px; background: linear-gradient(135deg, #10d9c4 0%, #0db5a3 100%); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 16px;">Add to Cart</button>
+                        </div>
+                    </div>`
+                },
+                {
+                    name: 'Newsletter Signup',
+                    preview: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                    html: `<div style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); padding: 40px; border-radius: 20px; color: white; width: 500px; text-align: center;">
+                        <div style="font-size: 48px; margin-bottom: 20px;">📧</div>
+                        <h2 style="margin: 0 0 16px 0; font-size: 28px; font-weight: 700;">Stay Updated</h2>
+                        <p style="margin: 0 0 30px 0; font-size: 16px; opacity: 0.9; line-height: 1.6;">Get the latest news, updates, and exclusive offers delivered straight to your inbox</p>
+                        <div style="display: flex; gap: 12px; max-width: 400px; margin: 0 auto;">
+                            <input type="email" placeholder="Enter your email address" style="flex: 1; padding: 16px; border: none; border-radius: 12px; font-size: 16px; background: rgba(255,255,255,0.2); color: white; backdrop-filter: blur(10px);">
+                            <button style="padding: 16px 24px; background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.3); border-radius: 12px; font-weight: 600; cursor: pointer; backdrop-filter: blur(10px); white-space: nowrap;">Subscribe</button>
+                        </div>
+                        <p style="margin: 20px 0 0 0; font-size: 12px; opacity: 0.7;">No spam, unsubscribe at any time</p>
+                    </div>`
+                },
+                {
+                    name: 'Testimonial Card',
+                    preview: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                    html: `<div style="background: white; padding: 35px; border-radius: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.1); width: 400px; position: relative;">
+                        <div style="position: absolute; top: -15px; left: 35px; width: 30px; height: 30px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); transform: rotate(45deg);"></div>
+                        <div style="font-size: 48px; color: #f59e0b; margin-bottom: 20px; line-height: 1;">"</div>
+                        <p style="margin: 0 0 25px 0; color: #374151; font-size: 16px; line-height: 1.7; font-style: italic;">This platform has completely transformed how we approach web design. The tools are intuitive and the results are professional.</p>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: white;">👩‍💼</div>
+                            <div>
+                                <div style="font-weight: 600; color: #1f2937; margin-bottom: 4px;">Sarah Chen</div>
+                                <div style="color: #6b7280; font-size: 14px;">Design Director, TechCorp</div>
+                            </div>
+                        </div>
+                    </div>`
+                },
+                {
+                    name: 'Call to Action',
+                    preview: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                    html: `<div style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); padding: 60px 40px; border-radius: 20px; color: white; width: 600px; text-align: center; position: relative; overflow: hidden;">
+                        <div style="position: absolute; top: -50px; right: -50px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                        <div style="position: absolute; bottom: -30px; left: -30px; width: 60px; height: 60px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                        <h2 style="margin: 0 0 20px 0; font-size: 36px; font-weight: 700; position: relative; z-index: 2;">Ready to Get Started?</h2>
+                        <p style="margin: 0 0 35px 0; font-size: 18px; opacity: 0.9; line-height: 1.6; position: relative; z-index: 2;">Join thousands of satisfied customers and transform your business today</p>
+                        <div style="display: flex; gap: 16px; justify-content: center; position: relative; z-index: 2;">
+                            <button style="padding: 16px 32px; background: white; color: #ef4444; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 16px;">Start Free Trial</button>
+                            <button style="padding: 16px 32px; background: rgba(255,255,255,0.2); color: white; border: 2px solid white; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 16px; backdrop-filter: blur(10px);">Learn More</button>
+                        </div>
+                    </div>`
+                },
+                {
+                    name: 'FAQ Section',
+                    preview: 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)',
+                    html: `<div style="background: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); width: 600px;">
+                        <h2 style="margin: 0 0 30px 0; font-size: 28px; color: #1f2937; text-align: center;">Frequently Asked Questions</h2>
+                        <div style="space-y: 16px;">
+                            <div style="border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+                                <h3 style="margin: 0 0 12px 0; font-size: 18px; color: #1f2937; display: flex; justify-content: space-between; align-items: center;">How does the platform work? <span style="color: #6b7280;">+</span></h3>
+                                <p style="margin: 0; color: #6b7280; line-height: 1.6;">Our platform provides intuitive drag-and-drop tools that make web design accessible to everyone, regardless of technical expertise.</p>
+                            </div>
+                            <div style="border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+                                <h3 style="margin: 0 0 12px 0; font-size: 18px; color: #1f2937; display: flex; justify-content: space-between; align-items: center;">Is there a free trial? <span style="color: #6b7280;">+</span></h3>
+                                <p style="margin: 0; color: #6b7280; line-height: 1.6;">Yes! We offer a 14-day free trial with full access to all features. No credit card required.</p>
+                            </div>
+                            <div style="border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px;">
+                                <h3 style="margin: 0 0 12px 0; font-size: 18px; color: #1f2937; display: flex; justify-content: space-between; align-items: center;">Can I export my designs? <span style="color: #6b7280;">+</span></h3>
+                                <p style="margin: 0; color: #6b7280; line-height: 1.6;">Absolutely! Export your designs as HTML, CSS, or even as complete websites ready for hosting.</p>
+                            </div>
+                        </div>
+                    </div>`
+                }
+            ];
+
+            templates.forEach(template => {
+                const card = document.createElement('div');
+                card.className = 'template-card group cursor-pointer';
+                card.style.height = '320px';
+
+                // Create thumbnail by rendering the template HTML
+                const thumbnailContainer = document.createElement('div');
+                thumbnailContainer.className = 'w-full h-48 rounded-lg mb-4 overflow-hidden relative';
+                thumbnailContainer.style.background = template.preview;
+
+                // Create a mini preview of the actual template
+                const previewFrame = document.createElement('div');
+                previewFrame.className = 'absolute inset-2 bg-white rounded-md overflow-hidden transform scale-75 origin-top-left';
+                previewFrame.style.width = '133%';
+                previewFrame.style.height = '133%';
+                previewFrame.innerHTML = template.html;
+
+                // Style the preview to fit nicely
+                const previewContent = previewFrame.firstElementChild;
+                if (previewContent) {
+                    previewContent.style.transform = 'scale(0.3)';
+                    previewContent.style.transformOrigin = 'top left';
+                    previewContent.style.width = '333%';
+                    previewContent.style.height = 'auto';
+                    previewContent.style.position = 'relative';
+                }
+
+                thumbnailContainer.appendChild(previewFrame);
+
+                card.innerHTML = `
+                    <div class="template-thumbnail-container">
+                        ${thumbnailContainer.outerHTML}
+                    </div>
+                    <div class="px-2">
+                        <h4 class="text-lg font-semibold text-white mb-2 group-hover:text-sky-400 transition-colors">${template.name}</h4>
+                        <p class="text-sm text-gray-400 mb-3 line-clamp-2">Professional ${template.name.toLowerCase()} template ready to use</p>
+                        <button class="w-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg font-medium transition-all duration-200 transform group-hover:scale-105">
+                            Add to Canvas
+                        </button>
+                    </div>
+                `;
+
+                card.addEventListener('click', () => {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = template.html;
+                    const element = createDesignElement(tempDiv.firstElementChild, 100, 100);
+                    addToCanvas(element);
+                    selectElement(element);
+                    closeTemplatePopup();
+                    showNotification(`${template.name} added to canvas`, 'success');
+                });
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Canvas click to deselect
+            document.getElementById('canvas').addEventListener('click', function (e) {
+                if (e.target === this || e.target === document.getElementById('canvasContent')) {
+                    document.querySelectorAll('.design-element').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    document.querySelectorAll('.resize-handle').forEach(handle => handle.remove());
+                    selectedElement = null;
+                    updatePropertiesPanel();
+                }
+            });
+
+            // Property input listeners
+            document.getElementById('posX').addEventListener('input', function () {
+                if (selectedElement) {
+                    selectedElement.style.left = this.value + 'px';
+                }
+            });
+
+            document.getElementById('posY').addEventListener('input', function () {
+                if (selectedElement) {
+                    selectedElement.style.top = this.value + 'px';
+                }
+            });
+
+            document.getElementById('width').addEventListener('input', function () {
+                if (selectedElement) {
+                    selectedElement.style.width = this.value + 'px';
+                }
+            });
+
+            document.getElementById('height').addEventListener('input', function () {
+                if (selectedElement) {
+                    selectedElement.style.height = this.value + 'px';
+                }
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function (e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+                switch (e.key.toLowerCase()) {
+                    case 'v':
+                        activateTool('select');
+                        break;
+                    case 'r':
+                        activateTool('rectangle');
+                        break;
+                    case 't':
+                        activateTool('text');
+                        break;
+                    case 'o':
+                        activateTool('circle');
+                        break;
+                    case 'h':
+                        activateTool('hand');
+                        break;
+                    case 'delete':
+                    case 'backspace':
+                        if (selectedElement) {
+                            selectedElement.remove();
+                            selectedElement = null;
+                            updatePropertiesPanel();
+                            updateElementTree();
+                        }
+                        break;
+                }
+            });
+        }
+
+        // Utility Functions
+        function rgbToHex(rgb) {
+            if (!rgb || rgb === 'rgba(0, 0, 0, 0)') return '#ffffff';
+
+            const result = rgb.match(/\d+/g);
+            if (!result) return '#ffffff';
+
+            return '#' + result.slice(0, 3).map(x => {
+                const hex = parseInt(x).toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-medium">${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-current opacity-70 hover:opacity-100">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Local Storage Functions
+        function saveToLocalStorage() {
+            try {
+                const projectState = {
+                    elements: Array.from(document.querySelectorAll('.design-element')).map(el => ({
+                        id: el.id,
+                        html: el.outerHTML,
+                        styles: el.style.cssText
+                    })),
+                    settings: {
+                        zoom: zoomLevel,
+                        grid: gridEnabled,
+                        projectName: document.getElementById('projectName').value
+                    }
+                };
+
+                localStorage.setItem('designStudioProject', JSON.stringify(projectState));
+            } catch (error) {
+                console.error('Failed to save to localStorage:', error);
+            }
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem('designStudioProject');
+                if (saved) {
+                    const projectState = JSON.parse(saved);
+
+                    // Restore elements
+                    projectState.elements.forEach(elementData => {
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = elementData.html;
+                        const element = tempDiv.firstElementChild;
+
+                        makeSelectable(element);
+                        makeDraggable(element);
+                        document.getElementById('canvasContent').appendChild(element);
+                    });
+
+                    // Restore settings
+                    if (projectState.settings) {
+                        zoomLevel = projectState.settings.zoom || 1;
+                        gridEnabled = projectState.settings.grid || false;
+                        document.getElementById('projectName').value = projectState.settings.projectName || 'Untitled Project';
+
+                        applyZoom();
+                        if (gridEnabled) toggleGrid();
+                    }
+
+                    updateElementTree();
+                    showNotification('Project loaded from local storage', 'success');
+                }
+            } catch (error) {
+                console.error('Failed to load from localStorage:', error);
+            }
+        }
+
+        // Export Functions
+        function exportProject() {
+            const elements = Array.from(document.querySelectorAll('.design-element'));
+
+            let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${document.getElementById('projectName').value}</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+        .container { position: relative; width: 100%; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div class="container">
+`;
+
+            elements.forEach(element => {
+                const cleanElement = element.cloneNode(true);
+                cleanElement.classList.remove('design-element', 'selected');
+                cleanElement.querySelectorAll('.resize-handle').forEach(handle => handle.remove());
+                html += '        ' + cleanElement.outerHTML + '\n';
+            });
+
+            html += `    </div>
+</body>
+</html>`;
+
+            // Create download
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${document.getElementById('projectName').value.replace(/\s+/g, '-').toLowerCase()}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showNotification('Project exported successfully!', 'success');
+        }
+
+        function previewMode() {
+            // Create preview window
+            const elements = Array.from(document.querySelectorAll('.design-element'));
+
+            let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview - ${document.getElementById('projectName').value}</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+        .container { position: relative; width: 100%; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div class="container">
+`;
+
+            elements.forEach(element => {
+                const cleanElement = element.cloneNode(true);
+                cleanElement.classList.remove('design-element', 'selected');
+                cleanElement.querySelectorAll('.resize-handle').forEach(handle => handle.remove());
+                html += '        ' + cleanElement.outerHTML + '\n';
+            });
+
+            html += `    </div>
+</body>
+</html>`;
+
+            const previewWindow = window.open('', '_blank');
+            previewWindow.document.write(html);
+            previewWindow.document.close();
+        }
+
+        function togglePropertiesPanel() {
+            // Placeholder for properties panel toggle
+            showNotification('Properties panel toggle coming soon!', 'info');
+        }
+
+        // UI Customizer Functions
+        function toggleUICustomizer() {
+            const customizer = document.getElementById('uiCustomizer');
+            customizer.classList.toggle('hidden');
+        }
+
+        function updateMintColor(type, value) {
+            document.documentElement.style.setProperty(`--mint-${type}`, value);
+            showNotification(`Mint ${type} color updated`, 'success');
+        }
+
+        function updateMintOpacity(value) {
+            const elements = document.querySelectorAll('[style*="mint"]');
+            elements.forEach(el => {
+                if (el.style.background && el.style.background.includes('mint')) {
+                    el.style.opacity = value;
+                }
+            });
+            showNotification(`Mint opacity set to ${Math.round(value * 100)}%`, 'success');
+        }
+
+        function updateFieldColor(type, value) {
+            document.documentElement.style.setProperty(`--field-${type}`, value);
+            showNotification(`Field ${type} color updated`, 'success');
+        }
+
+        function updateMotionSpeed(speed) {
+            const speeds = {
+                fast: '100ms',
+                normal: '250ms',
+                slow: '400ms'
+            };
+            document.documentElement.style.setProperty('--motion-duration-normal', speeds[speed]);
+            showNotification(`Motion speed set to ${speed}`, 'success');
+        }
+
+        function updateSpacingScale(value) {
+            document.documentElement.style.setProperty('--space-1', `${value}px`);
+            document.getElementById('spacingValue').textContent = `${value}px`;
+            showNotification(`Spacing scale updated to ${value}px`, 'success');
+        }
+
+        function resetUICustomizer() {
+            // Reset to default values
+            document.getElementById('mintPrimary').value = '#10d9c4';
+            document.getElementById('mintOpacity').value = '1';
+            document.getElementById('fieldDarkest').value = '#0a0e1a';
+            document.getElementById('fieldMedium').value = '#141b26';
+            document.getElementById('motionSpeed').value = 'normal';
+            document.getElementById('spacingScale').value = '4';
+
+            // Apply defaults
+            updateMintColor('primary', '#10d9c4');
+            updateMintOpacity('1');
+            updateFieldColor('darkest', '#0a0e1a');
+            updateFieldColor('medium', '#141b26');
+            updateMotionSpeed('normal');
+            updateSpacingScale('4');
+
+            showNotification('UI customizer reset to defaults', 'success');
+        }
+
+        // Error Handling
+        window.addEventListener('error', function (e) {
+            console.error('Application Error:', e.error);
+            showNotification('An error occurred. Please refresh the page if issues persist.', 'error');
+        });
+
+        window.addEventListener('unhandledrejection', function (e) {
+            console.error('Unhandled Promise Rejection:', e.reason);
+            showNotification('A network error occurred. Please check your connection.', 'error');
+        });
+
+        // Prevent context menu on design elements to avoid interference
+        document.addEventListener('contextmenu', function (e) {
+            if (e.target.classList.contains('design-element')) {
+                e.preventDefault();
+            }
+        });
+
+        // Make Sidebars Draggable
+        function makeSidebarsDraggable() {
+            // Left Sidebar Dragging
+            const leftSidebar = document.getElementById('leftSidebar');
+            const leftDragHandle = document.getElementById('sidebarDragHandle');
+            let leftIsDragging = false;
+            let leftStartX = 0;
+            let leftStartY = 0;
+            let leftInitialX = 0;
+            let leftInitialY = 0;
+
+            leftDragHandle.addEventListener('mousedown', function (e) {
+                leftIsDragging = true;
+                leftStartX = e.clientX;
+                leftStartY = e.clientY;
+
+                const rect = leftSidebar.getBoundingClientRect();
+                leftInitialX = rect.left;
+                leftInitialY = rect.top;
+
+                document.body.style.cursor = 'grabbing';
+                document.body.style.userSelect = 'none';
+                leftSidebar.style.transition = 'none';
+                e.preventDefault();
+            });
+
+            // Right Sidebar Dragging
+            const rightSidebar = document.getElementById('rightSidebar');
+            const rightDragHandle = document.getElementById('rightSidebarDragHandle');
+            let rightIsDragging = false;
+            let rightStartX = 0;
+            let rightStartY = 0;
+            let rightInitialX = 0;
+            let rightInitialY = 0;
+
+            rightDragHandle.addEventListener('mousedown', function (e) {
+                rightIsDragging = true;
+                rightStartX = e.clientX;
+                rightStartY = e.clientY;
+
+                const rect = rightSidebar.getBoundingClientRect();
+                rightInitialX = rect.left;
+                rightInitialY = rect.top;
+
+                document.body.style.cursor = 'grabbing';
+                document.body.style.userSelect = 'none';
+                rightSidebar.style.transition = 'none';
+                e.preventDefault();
+            });
+
+            // Mouse move handler
+            document.addEventListener('mousemove', function (e) {
+                if (leftIsDragging) {
+                    const deltaX = e.clientX - leftStartX;
+                    const deltaY = e.clientY - leftStartY;
+
+                    const newX = Math.max(0, Math.min(window.innerWidth - leftSidebar.offsetWidth, leftInitialX + deltaX));
+                    const newY = Math.max(0, Math.min(window.innerHeight - leftSidebar.offsetHeight, leftInitialY + deltaY));
+
+                    leftSidebar.style.left = newX + 'px';
+                    leftSidebar.style.top = newY + 'px';
+                    leftSidebar.style.right = 'auto';
+                    leftSidebar.style.bottom = 'auto';
+                }
+
+                if (rightIsDragging) {
+                    const deltaX = e.clientX - rightStartX;
+                    const deltaY = e.clientY - rightStartY;
+
+                    const newX = Math.max(0, Math.min(window.innerWidth - rightSidebar.offsetWidth, rightInitialX + deltaX));
+                    const newY = Math.max(0, Math.min(window.innerHeight - rightSidebar.offsetHeight, rightInitialY + deltaY));
+
+                    rightSidebar.style.left = newX + 'px';
+                    rightSidebar.style.top = newY + 'px';
+                    rightSidebar.style.right = 'auto';
+                    rightSidebar.style.bottom = 'auto';
+                }
+            });
+
+            // Mouse up handler
+            document.addEventListener('mouseup', function () {
+                if (leftIsDragging || rightIsDragging) {
+                    leftIsDragging = false;
+                    rightIsDragging = false;
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+
+                    // Restore transitions
+                    leftSidebar.style.transition = '';
+                    rightSidebar.style.transition = '';
+
+                    // Save positions
+                    const leftRect = leftSidebar.getBoundingClientRect();
+                    const rightRect = rightSidebar.getBoundingClientRect();
+
+                    localStorage.setItem('leftSidebarPosition', JSON.stringify({
+                        x: leftRect.left,
+                        y: leftRect.top
+                    }));
+
+                    localStorage.setItem('rightSidebarPosition', JSON.stringify({
+                        x: rightRect.left,
+                        y: rightRect.top
+                    }));
+
+                    showNotification('Sidebar position saved', 'success');
+                }
+            });
+
+            // Load saved positions
+            const savedLeftPos = localStorage.getItem('leftSidebarPosition');
+            const savedRightPos = localStorage.getItem('rightSidebarPosition');
+
+            if (savedLeftPos) {
+                const pos = JSON.parse(savedLeftPos);
+                leftSidebar.style.left = pos.x + 'px';
+                leftSidebar.style.top = pos.y + 'px';
+                leftSidebar.style.right = 'auto';
+                leftSidebar.style.bottom = 'auto';
+            }
+
+            if (savedRightPos) {
+                const pos = JSON.parse(savedRightPos);
+                rightSidebar.style.left = pos.x + 'px';
+                rightSidebar.style.top = pos.y + 'px';
+                rightSidebar.style.right = 'auto';
+                rightSidebar.style.bottom = 'auto';
+            }
+
+            // Add visual feedback
+            leftDragHandle.addEventListener('mouseenter', function () {
+                this.style.background = 'rgba(16, 217, 196, 0.3)';
+            });
+
+            leftDragHandle.addEventListener('mouseleave', function () {
+                if (!leftIsDragging) {
+                    this.style.background = 'rgba(0, 0, 0, 0.2)';
+                }
+            });
+
+            rightDragHandle.addEventListener('mouseenter', function () {
+                this.style.background = 'rgba(16, 217, 196, 0.3)';
+            });
+
+            rightDragHandle.addEventListener('mouseleave', function () {
+                if (!rightIsDragging) {
+                    this.style.background = 'rgba(0, 0, 0, 0.2)';
+                }
+            });
+        }
+
+        // Auto-save every 30 seconds
+        setInterval(saveToLocalStorage, 30000);
+    </script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'971ed2bf2052b41e',t:'MTc1NTY2MDc0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+</body>
+
+</html>
